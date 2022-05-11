@@ -1,0 +1,1 @@
+This folder contains the project documentation (e.g. project schedule, program usage, codebase docs)
