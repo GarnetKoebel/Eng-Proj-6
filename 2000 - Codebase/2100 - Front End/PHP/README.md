@@ -1,1 +1,1 @@
-This folder contains the PHP codebase
+This folder contains the PHP code

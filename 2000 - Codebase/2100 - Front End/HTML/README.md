@@ -1,1 +1,2 @@
-This folder contains the HTML codebase
+This folder contains the HTML code
+

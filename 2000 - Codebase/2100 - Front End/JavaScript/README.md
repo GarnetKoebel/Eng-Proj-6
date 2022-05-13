@@ -1,1 +1,1 @@
-This folder contains the JavaScript codebase
+This folder contains the JavaScript code
