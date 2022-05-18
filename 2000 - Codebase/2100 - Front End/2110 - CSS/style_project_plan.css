@@ -1,0 +1,22 @@
+h1, h2 {
+   /* font-family: 'Courier New', Courier, monospace;*/
+   font-family: 'Roboto', sans-serif;
+       color: #ff0000;
+}
+
+body {
+    color: rgb(0, 0, 255) ;
+}
+
+#ppheading{
+    font-family: 'Macondo', cursive;
+    color: green;
+}
+
+.heading{
+    color: grey !important;
+}
+
+ol ul li{
+    text-decoration:line-through ;
+}
