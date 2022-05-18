@@ -1,0 +1,38 @@
+fieldset{
+    border-style: solid;
+    margin: 1px 20px 1px 20px;
+    width: 50%;
+    margin: 1px auto;
+    padding: 10px auto;
+    border-radius: 20px;
+}
+
+img{
+    display: inline; /* the default for span */
+    width: 150px;
+    height: 150px;
+}
+    
+table{
+    
+}
+
+a:link.menu {
+  
+}
+
+li:visited.menu {
+    
+}
+
+li:hover.menu {
+    
+}
+
+li:active.menu {
+   
+}
+
+li.menu {
+    
+}
