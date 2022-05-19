@@ -67,3 +67,10 @@ ctrlp.root
 
 #html
 *.html
+
+*.lock
+*.log
+*.log4j.xml
+*.ide.log
+
+2000 - Codebase/2300 - Embedded/2310 - Floor Controller/.metadata/.plugins/*
