@@ -124,24 +124,24 @@ int main(void)
 	  uint8_t i;
 	  //Receive
 	  if (RxData[0] == GO_TO_FLOOR_1) {
-		  //HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		  HAL_GPIO_TogglePin(GPIOC, Switch_LED_Pin);
 		  HAL_Delay(2000);
 		  for (i=0; i<8; i++) {
 			  RxData[i] = 0x00;
 		  }
-		  //HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		  HAL_GPIO_TogglePin(GPIOC, Switch_LED_Pin);
 		  HAL_Delay(100);
 	  }
 	  //Transmit
 	  if (BUTTON !=0) {
 		  if (BUTTON == BLUE_BUTTON_PRESSED) {
-			  //HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+			  HAL_GPIO_TogglePin(GPIOC, Switch_LED_Pin);
 			  HAL_Delay(2000);
 			  TxData[0] = msg;
 			  if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, TxData, &TxMailbox) != HAL_OK) {
 				  Error_Handler();
 			  }
-			  //HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+			  HAL_GPIO_TogglePin(GPIOC, Switch_LED_Pin);
 			  BUTTON = NO_BUTTON_PRESSED;
 		  }
 	  }
@@ -255,7 +255,7 @@ static void MX_CAN_Init(void)
 
   TxHeader.IDE = CAN_ID_STD;
   TxHeader.ExtId = 0x00;
-  TxHeader.StdId = ID;
+  TxHeader.StdId = CAN_ID;
   TxHeader.RTR = CAN_RTR_DATA;
   TxHeader.DLC = 1;
   TxHeader.TransmitGlobalTime = DISABLE;
