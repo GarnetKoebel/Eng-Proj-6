@@ -1,50 +1,43 @@
-body{
-    background-color: maroon;
+h1{
+    margin: auto;
+    width: 210px;
 }
 
 input.submit{
-    color: blue;
-    background-color: dodgerblue;
     border: 1px solid grey;
     border-radius: 20px;
 }
 
 input.submit:hover{
-    color: dodgerblue;
-    background-color: blue;
+    color: grey;
+    background-color: rgb(32, 32, 32);
 }
 
 input.submit:active{
-    color: goldenrod;
-    background-color: purple; 
+    color: rgb(32, 32, 32);
+    background-color: grey; 
 }
 
 fieldset{
-    color: yellow;
-    background-color: green;
-    border: 5px solid pink;
-    border-style: solid dashed dotted double;
+    border: 2px solid;
+    border-style: solid;
     /*margin: 1px 20px 1px 20px;*/
     width: 300px;
     margin: 1px auto;
     padding: 1px 40px;
-    box-shadow: 10px 10px 15px aqua;
-
     border-radius: 20px;
 }
 
 legend{
     border-style: solid;
-    background-color: cornflowerblue;
     border-radius: 15px;
 }
 
+/*
 textarea.text{
-    color: yellow;
-    background-color: black;
 }
 
 textarea.text:focus{
-    color: orange;
-    background-color: blueviolet;
+   
 }
+*/
