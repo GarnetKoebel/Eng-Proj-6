@@ -13,7 +13,7 @@
 #define FLOOR2   3
 #define FLOOR3   4
 
-#define CONTROLLER_TYPE FLOOR2
+#define CONTROLLER_TYPE FLOOR3
 
 // Common Functions
 void cmdTX(uint8_t canId, uint8_t dlc, uint8_t cmd); // wrapper around HAL CAN TX function
