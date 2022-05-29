@@ -72,3 +72,10 @@ ctrlp.root
 *.ide.log
 
 2000 - Codebase/2300 - Embedded/2310 - Floor Controller/.metadata/.plugins/*
+2000 - Codebase/2300 - Embedded/2310 - Floor Controller/G2Elevator/.settings/
+
+*.mk
+
+*.list
+
+*.launch
