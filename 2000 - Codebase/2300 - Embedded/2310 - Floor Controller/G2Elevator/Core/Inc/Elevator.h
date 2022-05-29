@@ -13,7 +13,7 @@
 #define FLOOR2   3
 #define FLOOR3   4
 
-#define CONTROLLER_TYPE FLOOR3
+#define CONTROLLER_TYPE FLOOR2
 
 // Common Functions
 void cmdTX(uint8_t canId, uint8_t dlc, uint8_t cmd); // wrapper around HAL CAN TX function
@@ -40,17 +40,17 @@ uint8_t floorReq();
 
 #if CONTROLLER_TYPE == FLOOR1
 #define CAN_ID 0x201
-#define FLOOR_CALL		0x05
+#define FLOOR_CALL		0x01
 #endif
 
 #if CONTROLLER_TYPE == FLOOR2
 #define CAN_ID 0x202
-#define FLOOR_CALL		0x06
+#define FLOOR_CALL		0x01
 #endif
 
 #if CONTROLLER_TYPE == FLOOR3
 #define CAN_ID 0x203
-#define FLOOR_CALL		0x07
+#define FLOOR_CALL		0x01
 #endif
 
 #endif
