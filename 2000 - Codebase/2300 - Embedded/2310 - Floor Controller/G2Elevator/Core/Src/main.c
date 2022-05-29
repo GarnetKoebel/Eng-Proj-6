@@ -122,6 +122,7 @@ int main(void)
 	  //Receive
 	  if (RxData[0] == FLOOR_CALL) {
 		  HAL_GPIO_TogglePin(GPIOC, Switch_LED_Pin);
+		  HAL_GPIO_TogglePin(Floor1LED_GPIO_Port, Floor1LED_Pin);
 		  HAL_Delay(2000);
 		  for (i=0; i<8; i++) {
 			  RxData[i] = 0x00;
@@ -360,7 +361,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, Debounce2_Pin|Switch_LED_Pin|Floor_switch_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, Debounce2_Pin|Switch_LED2_Pin|Switch_LED3_Pin|Switch_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, Floor1LED_Pin|Floor2LED_Pin|Floor3LED_Pin|LD2_Pin
@@ -372,8 +373,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : Debounce2_Pin Switch_LED_Pin Floor_Switch_Pin */
-  GPIO_InitStruct.Pin = Debounce2_Pin|Switch_LED_Pin|Floor_switch_Pin;
+  /*Configure GPIO pins : Debounce2_Pin Switch_LED2_Pin Switch_LED3_Pin Switch_LED_Pin */
+  GPIO_InitStruct.Pin = Debounce2_Pin|Switch_LED2_Pin|Switch_LED3_Pin|Switch_LED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -387,6 +388,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : Floor_switch_Pin */
+  GPIO_InitStruct.Pin = Floor_switch_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(Floor_switch_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
