@@ -60,8 +60,8 @@ all: main-build
 main-build: G2Elevator.elf secondary-outputs
 
 # Tool invocations
-G2Elevator.elf G2Elevator.map: $(OBJS) $(USER_OBJS) C:\Users\steph\OneDrive\Documents\Gitea\ Repos\Eng-Proj-6\2000\ -\ Codebase\2300\ -\ Embedded\2310\ -\ Floor\ Controller\G2Elevator\STM32F303RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "G2Elevator.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\steph\OneDrive\Documents\Gitea Repos\Eng-Proj-6\2000 - Codebase\2300 - Embedded\2310 - Floor Controller\G2Elevator\STM32F303RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="G2Elevator.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+G2Elevator.elf G2Elevator.map: $(OBJS) $(USER_OBJS) C:\Users\Giord\Documents\GitHub\Eng-Proj-6\2000\ -\ Codebase\2300\ -\ Embedded\2310\ -\ Floor\ Controller\G2Elevator\STM32F303RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "G2Elevator.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Giord\Documents\GitHub\Eng-Proj-6\2000 - Codebase\2300 - Embedded\2310 - Floor Controller\G2Elevator\STM32F303RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="G2Elevator.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
