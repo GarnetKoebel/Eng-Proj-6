@@ -82,8 +82,8 @@ void Error_Handler(void);
 #define Debouce1_GPIO_Port GPIOA
 #define Switch_LED_Pin GPIO_PIN_10
 #define Switch_LED_GPIO_Port GPIOC
-#define Floor_Switch_Pin GPIO_PIN_12
-#define Floor_Switch_GPIO_Port GPIOC
+#define Floor_switch_Pin GPIO_PIN_12
+#define Floor_switch_GPIO_Port GPIOC
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
