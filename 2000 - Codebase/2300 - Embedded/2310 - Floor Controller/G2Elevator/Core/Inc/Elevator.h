@@ -40,14 +40,17 @@ uint8_t floorReq();
 
 #if CONTROLLER_TYPE == FLOOR1
 #define CAN_ID 0x201
+#define FLOOR_CALL		0x05
 #endif
 
 #if CONTROLLER_TYPE == FLOOR2
 #define CAN_ID 0x202
+#define FLOOR_CALL		0x06
 #endif
 
 #if CONTROLLER_TYPE == FLOOR3
 #define CAN_ID 0x203
+#define FLOOR_CALL		0x07
 #endif
 
 #endif
