@@ -62,10 +62,16 @@ void Error_Handler(void);
 #define B1_EXTI_IRQn EXTI15_10_IRQn
 #define Debounce2_Pin GPIO_PIN_2
 #define Debounce2_GPIO_Port GPIOC
+#define Floor1LED_Pin GPIO_PIN_0
+#define Floor1LED_GPIO_Port GPIOA
+#define Floor2LED_Pin GPIO_PIN_1
+#define Floor2LED_GPIO_Port GPIOA
 #define USART_TX_Pin GPIO_PIN_2
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin GPIO_PIN_3
 #define USART_RX_GPIO_Port GPIOA
+#define Floor3LED_Pin GPIO_PIN_4
+#define Floor3LED_GPIO_Port GPIOA
 #define LD2_Pin GPIO_PIN_5
 #define LD2_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
