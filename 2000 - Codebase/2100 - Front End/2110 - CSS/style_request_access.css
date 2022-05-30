@@ -29,8 +29,9 @@ fieldset{
 }
 
 legend{
+    border: 2px solid;
     border-style: solid;
-    border-radius: 15px;
+    border-radius: 20px;
 }
 
 /*
