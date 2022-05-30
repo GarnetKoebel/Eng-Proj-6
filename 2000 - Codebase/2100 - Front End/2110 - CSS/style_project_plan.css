@@ -1,0 +1,45 @@
+h1, h2 {
+   /* font-family: 'Courier New', Courier, monospace;*/
+   font-family: 'Roboto', sans-serif;
+       color: #ff0000;
+}
+
+body {
+    color: rgb(0, 0, 255) ;
+}
+
+#ppheading{
+    font-family: 'Macondo', cursive;
+    color: green;
+}
+
+.heading{
+    color: grey !important;
+}
+
+ol ul li{
+    text-decoration:line-through ;
+}
+
+tr {
+    background-color: rgb(223, 110, 110);
+}
+
+td{
+    text-align: center;
+    border: 1px solid black;
+}
+
+td:hover {
+    background-color: aquamarine;
+    border: 2px dashed black;
+    padding: 0px 0px;
+}
+
+table{
+    margin: 0px auto 0px auto;
+    width: 400px;
+    border-spacing: 5px;
+    border: 1px solid green;
+    empty-cells: hide;
+}

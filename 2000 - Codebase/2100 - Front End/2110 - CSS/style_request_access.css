@@ -1,0 +1,43 @@
+h1{
+    margin: auto;
+    width: 210px;
+}
+
+input.submit{
+    border: 1px solid grey;
+    border-radius: 20px;
+}
+
+input.submit:hover{
+    color: grey;
+    background-color: rgb(32, 32, 32);
+}
+
+input.submit:active{
+    color: rgb(32, 32, 32);
+    background-color: grey; 
+}
+
+fieldset{
+    border: 2px solid;
+    border-style: solid;
+    /*margin: 1px 20px 1px 20px;*/
+    width: 300px;
+    margin: 1px auto;
+    padding: 1px 40px;
+    border-radius: 20px;
+}
+
+legend{
+    border-style: solid;
+    border-radius: 15px;
+}
+
+/*
+textarea.text{
+}
+
+textarea.text:focus{
+   
+}
+*/
