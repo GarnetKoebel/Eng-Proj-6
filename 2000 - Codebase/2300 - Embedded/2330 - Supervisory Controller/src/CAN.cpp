@@ -1,13 +1,36 @@
+#include "../include/pcanFunctions.h"
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdlib.h>
+#include <stdlib.h>  
+#include <errno.h>
 #include <unistd.h> 
+#include <signal.h>
+#include <string.h>
+#include <fcntl.h>    					// O_RDWR
+#include <unistd.h>
+#include <ctype.h>
+#include <libpcan.h>   					// PCAN library
+
 
 #define CAN_ID 0x100
 #define GO_TO_FLOOR_1 0x05
 #define GO_TO_FLOOR_2 0x06
 #define GO_TO_FLOOR_3 0x07
 
+// Globals
+// ***********************************************************************************************************
+HANDLE h;
+HANDLE h2;
+TPCANMsg Txmsg;
+TPCANMsg Rxmsg;
+DWORD status;
+
+// Code
+// ***********************************************************************************************************
+
+// Functions
+// *****************************************************************
 int pcanTx(int id, int data){
 	h = LINUX_CAN_Open("/dev/pcanusb32", O_RDWR);		// Open PCAN channel
 
@@ -30,8 +53,7 @@ int pcanTx(int id, int data){
 	CAN_Close(h);
 }
 
-int pcanRx(int num_msgs){
-	int i = 0;
+TPCANMsg pcanRx(void){
 
 	// Open a CAN channel 
 	h2 = LINUX_CAN_Open("/dev/pcanusb32", O_RDWR);
@@ -43,11 +65,10 @@ int pcanRx(int num_msgs){
 	status = CAN_Status(h2);
 
 	// Clear screen to show received messages
-	system("@cls||clear");
+	//system("@cls||clear");
 
 	
 	// Read 'num' messages on the CAN bus
-	while(i < num_msgs) {
 		while((status = CAN_Read(h2, &Rxmsg)) == PCAN_RECEIVE_QUEUE_EMPTY){
 			sleep(1);
 		}
@@ -55,38 +76,10 @@ int pcanRx(int num_msgs){
 			printf("Error 0x%x\n", (int)status);
 			//break;
 		}
-		
-		if (Rxmsg.ID == 0x201 && Rxmsg.DATA[0] == 0x01 && Rxmsg.LEN != 0x04) { // Floor 1 floor call request
-			printf("Floor 1 Request");
-			pcanTx(CAN_ID, GO_TO_FLOOR_1);
-			i++
-			
-		} else if (Rxmsg.ID == 0x202 && Rxmsg.DATA[0] == 0x01 && Rxmsg.LEN != 0x04) { // Floor 2 floor call request
-			printf("Floor 2 Request");
-			pcanTx(CAN_ID, GO_TO_FLOOR_2);
-			i++
-			
-		} else if (Rxmsg.ID == 0x203 && Rxmsg.DATA[0] == 0x01 && Rxmsg.LEN != 0x04) { // Floor 3 floor call request
-			printf("Floor 3 Request");
-			pcanTx(CAN_ID, GO_TO_FLOOR_3);
-			i++
-			
-		}
-			
-							
-	}
-	
 
 	// Close CAN 2.0 channel and exit	
 	CAN_Close(h2);
 	//printf("\nEnd Rx\n");
-	return ((int)Rxmsg.DATA[0]);						// Return the last value received
+	return (Rxmsg);						// Return the received message
 }
 
-void main() {
-	while(1) {
-		// receive can message and transmit if required
-		pcanRx(1);
-	}
-	
-}

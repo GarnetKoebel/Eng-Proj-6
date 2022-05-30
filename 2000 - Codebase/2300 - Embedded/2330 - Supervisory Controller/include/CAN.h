@@ -22,7 +22,7 @@
 
 // Function declarations
 int pcanTx(int id, int data);
-int pcanRx(int num_msgs);
+TPCANMsg pcanRx(void);
 
 
 #endif
