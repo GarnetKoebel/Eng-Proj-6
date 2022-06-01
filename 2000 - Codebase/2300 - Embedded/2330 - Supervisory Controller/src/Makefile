@@ -6,7 +6,7 @@ ODIR=obj
 
 LIBS=-l:libmysqlcppconn.so -lpcan
 
-_OBJ = main.o mainFunctions.o pcanFunctions.o databaseFunctions.o
+_OBJ = main.o CAN.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.cpp
