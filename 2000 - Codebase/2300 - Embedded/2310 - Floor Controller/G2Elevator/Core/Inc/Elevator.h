@@ -5,7 +5,7 @@
 #ifndef ELEVATOR_H
 #define ELEVATOR_H
 
-#include "stm32f3xx_hal.h"
+
 
 #define SUPER    0
 #define CAR      1
@@ -16,10 +16,10 @@
 #define CONTROLLER_TYPE FLOOR3
 
 // Common Functions
-void cmdTX(uint8_t canId, uint8_t dlc, uint8_t cmd); // wrapper around HAL CAN TX function
+void msgRx();
+void msgTx(uint8_t canId, uint8_t msg); // wrapper around HAL CAN TX function
 
 #if CONTROLLER_TYPE == SUPER
-#define CAN_ID 0x100
 
 uint8_t SC_Enable(uint8_t enable);
 uint8_t SC_FloorReq(uint8_t floor);
@@ -27,7 +27,7 @@ uint8_t SC_FloorReq(uint8_t floor);
 #endif
 
 #if CONTROLLER_TYPE == CAR
-#define CAN_ID 0x200
+
 
 uint8_t CC_FloorReq(); // get Elevator Controller Status
 
@@ -39,18 +39,15 @@ uint8_t getFloorButtonState(); // check if floor call has been requested
 uint8_t floorReq();
 
 #if CONTROLLER_TYPE == FLOOR1
-#define CAN_ID 0x201
-#define FLOOR_CALL		0x01
+
 #endif
 
 #if CONTROLLER_TYPE == FLOOR2
-#define CAN_ID 0x202
-#define FLOOR_CALL		0x01
+
 #endif
 
 #if CONTROLLER_TYPE == FLOOR3
-#define CAN_ID 0x203
-#define FLOOR_CALL		0x01
+
 #endif
 
 #endif
