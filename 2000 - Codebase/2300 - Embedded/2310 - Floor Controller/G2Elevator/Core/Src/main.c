@@ -42,14 +42,14 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
- CAN_HandleTypeDef hcan;
+
 
 I2C_HandleTypeDef hi2c1;
 
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-uint8_t BUTTON = NO_BUTTON_PRESSED;
+//uint8_t BUTTON = NO_BUTTON_PRESSED;
 
 /* USER CODE END PV */
 
@@ -110,12 +110,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  processMSg();
+	  processMsg();
 
 	  //Transmit
-	  if (BUTTON !=0) {
-		  msgTx();
-	  }
+	  //if (BUTTON !=0) {
+		  //msgTx();
+	 // }
   }
   /* USER CODE END 3 */
 }
@@ -182,54 +182,8 @@ static void MX_CAN_Init(void)
   /* USER CODE BEGIN CAN_Init 1 */
 
   /* USER CODE END CAN_Init 1 */
-  hcan.Instance = CAN;
-  hcan.Init.Prescaler = 32;
-  hcan.Init.Mode = CAN_MODE_NORMAL;
-  hcan.Init.SyncJumpWidth = CAN_SJW_1TQ;
-  hcan.Init.TimeSeg1 = CAN_BS1_4TQ;
-  hcan.Init.TimeSeg2 = CAN_BS2_4TQ;
-  hcan.Init.TimeTriggeredMode = DISABLE;
-  hcan.Init.AutoBusOff = DISABLE;
-  hcan.Init.AutoWakeUp = DISABLE;
-  hcan.Init.AutoRetransmission = DISABLE;
-  hcan.Init.ReceiveFifoLocked = DISABLE;
-  hcan.Init.TransmitFifoPriority = DISABLE;
-  if (HAL_CAN_Init(&hcan) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN CAN_Init 2 */
-  CAN_FilterTypeDef filter;
+  canInit();
 
-  filter.FilterBank = 0;
-  filter.FilterIdHigh = 0x0100 << 5;
-  filter.FilterIdLow = 0x0000;
-  filter.FilterMaskIdHigh = 0xFFC << 5;
-  filter.FilterMaskIdLow = 0x0000;
-  filter.FilterFIFOAssignment = CAN_FILTER_FIFO0;
-  filter.FilterMode = CAN_FILTERMODE_IDMASK;
-  filter.FilterScale = CAN_FILTERSCALE_32BIT;
-  filter.FilterActivation = ENABLE;
-  filter.SlaveStartFilterBank = 0;
-
-  if (HAL_CAN_ConfigFilter(&hcan, &filter) != HAL_OK) {
-	  Error_Handler();
-  }
-
-  if (HAL_CAN_Start(&hcan) != HAL_OK) {
-	  Error_Handler();
-  }
-
-  if (HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK) {
-	  Error_Handler();
-  }
-
-  TxHeader.IDE = CAN_ID_STD;
-  TxHeader.ExtId = 0x00;
-  TxHeader.StdId = CAN_ID;
-  TxHeader.RTR = CAN_RTR_DATA;
-  TxHeader.DLC = 1;
-  TxHeader.TransmitGlobalTime = DISABLE;
 
   /* USER CODE END CAN_Init 2 */
 
@@ -375,32 +329,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) { // receive messae
-	msgRx();
 
-	//	if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHeader, RxData) != HAL_OK) {
-//		Error_Handler(); // Reception error
-//	}
-}
-
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-#if CONTROLLER_TYPE >= FLOOR1
-	if (GPIO_Pin == GPIO_PIN_13) {
-		BUTTON = BLUE_BUTTON_PRESSED;
-	}
-#endif
-
-#if CONTROLLER_TYPE == CAR
-	if (GPIO_Pin == BTN_FLOOR_1) {
-
-	} else if (GPIO_Pin == BTN_FLOOR_2) {
-
-	} else if (GPIO_Pin == BTN_FLOOR_3) {
-
-	}
-
-#endif
-}
 
 /* USER CODE END 4 */
 
