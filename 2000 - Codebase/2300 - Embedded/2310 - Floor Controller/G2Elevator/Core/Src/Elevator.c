@@ -23,6 +23,11 @@ static uint8_t		   RxData[8]; // stores most recent message
 static uint8_t		   newMsg = 0; // tracks if a new message has come in
 
 static uint8_t		   lightStatus = OFF;
+
+static uint8_t		   floorOne = OFF;
+static uint8_t		   floorTwo = OFF;
+static uint8_t		   floorThree = OFF;
+
 static uint8_t		   ecStatus = EC_STATUS_DEEN; // Keeps track of elevator controller status
 uint8_t BUTTON = NO_BUTTON_PRESSED;
 
@@ -80,7 +85,33 @@ uint8_t CC_FloorReq() { // Make floor request
 #if CONTROLLER_TYPE >= FLOOR1 
 void swLightControl() {
 	if (BUTTON == BUTTON_PRESSED) {
-		if (RxData[0] == )
+		if (RxData[0] == EC_POS_1){
+
+		}
+		else if (RxData[0] == EC_POS_2){
+
+		}
+		else if (RxData[0] == EC_POS_3){
+
+		}
+	}
+}
+
+void currentFloorLED(){ // sets the floor LEDs
+	if (RxData[0] == EC_POS_1) {
+		floorOne = SOLID;
+		floorTwo = OFF;
+		floorThree = OFF;
+	}
+	else if(RxData[0] == EC_POS_2) {
+		floorOne = OFF;
+		floorTwo = SOLID;
+		floorThree = OFF;
+	}
+	else if(RxData[0] == EC_POS_3) {
+		floorOne = OFF;
+		floorTwo = OFF;
+		floorThree = SOLID;
 	}
 }
 

@@ -1,50 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Project plan page" />
-    <meta name="robots" content="noindex nofollow" />
     <meta name="author" content="Giordan Pellegrino" />
-    <meta name="pragma" content="no-cache" />
+    <meta name="robots" content="noindex nofollow" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 
-    <link rel="stylesheet" href="../2110 - CSS/style_request_access.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="../2110 - CSS/style_request_access.css"
+      type="text/css"
+    />
 
     <title>Request Access</title>
-</head>
-<body>
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="index.html">2GElevator Project</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="menu"><a href="login.html">Login</a></li>
+          <li class="menu"><a href="request_access.html">Signup</a></li>
+          <li class="menu"><a href="about.html">About</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"
+              >Logbooks <span class="caret"></span
+            ></a>
+            <ul class="dropdown-menu">
+              <li class="menu">
+                <a href="glogbook.html">Giordan's Logbook</a>
+              </li>
+              <li class="menu">
+                <a href="g2logbook.html">Garnet's Logbook</a>
+              </li>
+            </ul>
+          </li>
+          <li class="menu"><a href="project_plan.html">Project Plan</a></li>
+          <li class="menu">
+            <a href="project_details.html">Project Details</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </head>
+  <body>
     <h1>Request Access</h1>
     <form action="../2150 - PHP/request_access.php" method="post" id="access">
+      <fieldset>
+        <legend>Contact Details</legend>
+        <p>First name: <input type="text" name="firstName" /></p>
+        <p>Last name: <input type="text" name="lastName" /></p>
+        <p>Email: <input type="email" name="email" /></p>
+        <p>DOB: <input type="date" name="DOB" /></p>
+        <p>Website: <input type="url" name="Website" /></p>
+        <label
+          ><input type="radio" name="fac_or_student" value="faculty" /> Faculty
+        </label>
+        <label
+          ><input type="radio" name="fac_or_student" value="Sudent" /> Student
+          <br />
+        </label>
 
-        <fieldset>
-            <legend>Contact Details </legend>
-                <p>First name: <input type="text" name="firstName"></p>
-                <p>Last name: <input type="text" name="lastName"></p>
-                <p>Email: <input type="email" name="email"></p>
-                <p>DOB: <input type="date" name="DOB"></p>
-                <p>Website: <input type="url" name="Website"></p>
-                <label><input type="radio" name="fac_or_student" value="faculty"> Faculty </label>
-                <label><input type="radio" name="fac_or_student" value="Sudent"> Student <br/> </label>
-        
-                <label><input type="checkbox" name="involvement[]" value="none"> None <br/>  </label>
-                <label><input type="checkbox" name="involvement[]" value="some"> Some <br/>  </label>
-                <label><input type="checkbox" name="involvement[]" value="lots"> Lots <br/>  </label>       
-        
-                <p>Do you drive?</p>
-                <select name="driver" id="car">
-                    <option value="no_answer" selected></option>
-                    <option value="no">No</option>
-                    <option value="yes">Yes</option>
-                </select>
-        
-                <p>Tell us about yourself</p>
-                <textarea class="text" name="info" cols="30" rows="10"> Here is what I can say ... </textarea><br />
-                <input class="submit" type="submit">
-        
-                <a href="index.html">Home</a>  
-        
-            </fieldset>
+        <label
+          ><input type="checkbox" name="involvement[]" value="none" /> None
+          <br />
+        </label>
+        <label
+          ><input type="checkbox" name="involvement[]" value="some" /> Some
+          <br />
+        </label>
+        <label
+          ><input type="checkbox" name="involvement[]" value="lots" /> Lots
+          <br />
+        </label>
+
+        <p>Do you drive?</p>
+        <select name="driver" id="car">
+          <option value="no_answer" selected></option>
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+
+        <p>Tell us about yourself</p>
+        <textarea class="text" name="info" cols="30" rows="10">
+ Here is what I can say ... </textarea
+        ><br />
+        <input class="submit" type="submit" />
+
+        <a href="index.html">Home</a>
+      </fieldset>
     </form>
-</body>
+    <p>Copyright &copy Giordan Pellegrino & Garnet Koebel</p>
+  </body>
 </html>

@@ -1,30 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Project plan page" />
-    <meta name="robots" content="noindex nofollow" />
     <meta name="author" content="Giordan Pellegrino" />
-    <meta name="pragma" content="no-cache" />
-
-    <link rel="stylesheet" href="../2110 - CSS/styles.css" type="text/css" />
+    <meta name="robots" content="noindex nofollow" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../2110 - CSS/index.css" type="text/css" />
 
     <title>Project 6 - Homepage</title>
-</head>
-<body>
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">2GElevator Project</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="nav-item"><a class="menu" href="about.html">About</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"
+              >Logbooks <span class="caret"></span
+            ></a>
+            <ul class="dropdown-menu">
+              <li class="nav-item">
+                <a class="menu" href="glogbook.html">Giordan's Logbook</a>
+              </li>
+              <li class="nav-item">
+                <a class="menu" href="g2logbook.html">Garnet's Logbook</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="menu" href="project_plan.html">Project Plan</a></li>
+          <li class="nav-item">
+            <a href="project_details.html">Project Details</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="menu" href="login.html">Login</a></li>
+          <li class="nav-item"><a class="menu" href="request_access.html">Signup</a></li>
+        </ul>
+      </div>
+    </nav>
+  </head>
+  <body>
     <h1>Elevator Project</h1>
-    <fieldset>
-        <legend>Welcome to Project 6 </legend>
-            <p class="menu"><a href="login.html">Login</a></p>
-            <p class="menu"><a href="request_access.html">Signup</a></p>
-            <p class="menu"><a href="about.html">About</a></p>
-            <p class="menu"><a href="glogbook.html">Giordan's Logbook</a></p>
-            <p class="menu"><a href="g2logbook.html">Garnet's Logbook</a></p>
-            <p class="menu"><a href="project_plan.html">Project Plan</a></p>
-            <p class="menu"><a href="project_details.html">Project Details</a></p>
-    </fieldset>    
-   
-</body>
+    <div class="row">
+      <div class="column">
+        <img
+          src="../2160 - Pictures/rickroll-roll.gif"
+          alt="left"
+          style="width: 100%"
+        />
+      </div>
+      <div class="column">
+        <fieldset style="width: 100%">
+          <legend>Welcome to Project 6</legend>
+          <a
+            href="login.html"
+            class="btn btn-primary btn-lg btn-block active"
+            role="button"
+            aria-pressed="true"
+            >Login</a
+          >
+          <a
+            href="request_access.html"
+            class="btn btn-primary btn-lg btn-block active"
+            role="button"
+            aria-pressed="true"
+            >Signup</a
+          >
+          <a
+            href="about.html"
+            class="btn btn-primary btn-lg btn-block active"
+            role="button"
+            aria-pressed="true"
+            >About</a
+          >
+          <a
+            href="glogbook.html"
+            class="btn btn-primary btn-lg btn-block active"
+            role="button"
+            aria-pressed="true"
+            >Giordan's Logbook</a
+          >
+          <a
+            href="g2logbook.html"
+            class="btn btn-primary btn-lg btn-block active"
+            role="button"
+            aria-pressed="true"
+            >Garnet's Logbook</a
+          >
+          <a
+            href="project_plan.html"
+            class="btn btn-primary btn-lg btn-block active"
+            role="button"
+            aria-pressed="true"
+            >Project Plan</a
+          >
+          <a
+            href="project_details.html"
+            class="btn btn-primary btn-lg btn-block active"
+            role="button"
+            aria-pressed="true"
+            >Project Details</a
+          >
+        </fieldset>
+      </div>
+      <div class="column">
+        <img
+          src="../2160 - Pictures/rickroll-roll.gif"
+          alt="right"
+          style="width: 100%"
+        />
+      </div>
+    </div>
+    <p>Copyright &copy Giordan Pellegrino & Garnet Koebel</p>
+  </body>
 </html>

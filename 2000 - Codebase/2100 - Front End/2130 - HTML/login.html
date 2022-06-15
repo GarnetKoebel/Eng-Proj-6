@@ -1,41 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex nofollow" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Giordan Pellegrino" />
-    <meta name="pragma" content="no-cache" />
-    <!-- Ensure page is reloaded every time - see: https://stackoverflow.com/questions/49547/how-do-we-control-web-page-caching-across-all-browsers  -->
-    <!--<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    -->
+    <meta name="robots" content="noindex nofollow" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <title>Login</title>
-    <link href="../2110 - CSS/loginstyle.css" type="text/css" rel="stylesheet" />
-</head>
-<body>
+    <link
+      href="../2110 - CSS/loginstyle.css"
+      type="text/css"
+      rel="stylesheet"
+    />
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="about.html">2GElevator Project</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="menu"><a href="login.html">Login</a></li>
+          <li class="menu"><a href="request_access.html">Signup</a></li>
+          <li class="menu"><a href="about.html">About</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"
+              >Logbooks <span class="caret"></span
+            ></a>
+            <ul class="dropdown-menu">
+              <li class="menu">
+                <a href="glogbook.html">Giordan's Logbook</a>
+              </li>
+              <li class="menu">
+                <a href="g2logbook.html">Garnet's Logbook</a>
+              </li>
+            </ul>
+          </li>
+          <li class="menu"><a href="project_plan.html">Project Plan</a></li>
+          <li class="menu">
+            <a href="project_details.html">Project Details</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </head>
+  <body>
     <form action="../2150 - PHP/login.php" method="post">
-        <fieldset>
-            <legend><h1> Login</h1></legend>
-        
-            <div class="rw">
-                <label id="userlabel" for="user" class="text_label">Username: </label>
-                <input id="user" class="text_input" type="text" name="username" required />
-            </div>
-        
-            <div class="rw">
-                <label for="pass" class="text_label">Password:</label>
-                <input class="text_input passwd" type="password" name="password" required />
-            </div>
-         
-            <input id="subbtn" type="submit" value="Submit"  />
-            <input type="image" id="sub" alt="submit button" src="../2160 - Pictures/SubmitButton.png" />
-        </fieldset>   
-        <p><a href="index.html">Home</a></p>
-        <p><a id="req_acc" href="request_access.html">Request Access</a></p>
-        <p>Copyright &copy Giordan Pellegrino & Garnet Koebel</p>
+      <fieldset>
+        <legend><h1>Login</h1></legend>
+
+        <div class="rw">
+          <label id="userlabel" for="user" class="text_label">Username: </label>
+          <input
+            id="user"
+            class="text_input"
+            type="text"
+            name="username"
+            required
+          />
+        </div>
+
+        <div class="rw">
+          <label for="pass" class="text_label">Password:</label>
+          <input
+            class="text_input passwd"
+            type="password"
+            name="password"
+            required
+          />
+        </div>
+
+        <input id="subbtn" type="submit" value="Submit" />
+        <input
+          type="image"
+          id="sub"
+          alt="submit button"
+          src="../2160 - Pictures/SubmitButton.png"
+        />
+      </fieldset>
+      <p><a href="index.html">Home</a></p>
+      <p><a id="req_acc" href="request_access.html">Request Access</a></p>
+      <p>Copyright &copy Giordan Pellegrino & Garnet Koebel</p>
     </form>
-</body>
+  </body>
 </html>
