@@ -167,13 +167,13 @@ int processCANMsg(void) {
 		printf("%s Moving", ecBaseStr);
 
 	} else if (msgData == EC_ID && msgData == EC_POS_1 && Rxmsg.LEN != 0x04) { // Elevator at floor 1 
-		printf("%s Floor 2", ecBaseStr);
+		printf("%s Floor 1", ecBaseStr);
 
 	} else if (msgData == EC_ID && msgData == EC_POS_2 && Rxmsg.LEN != 0x04) { // Elevator at floor 2
-		printf("%s Floor 3", ecBaseStr);
+		printf("%s Floor 2", ecBaseStr);
 
 	} else if (msgData == EC_ID && msgData == EC_POS_3 && Rxmsg.LEN != 0x04) { // Elevator at floor 3
-		printf("%s Floor 1", ecBaseStr);
+		printf("%s Floor 3", ecBaseStr);
 
 	} else if (msgData == CC_ID && msgData == CC_FLOOR_REQ_1 && Rxmsg.LEN != 0x04) {
 		printf("%s Request Floor 1", ccBaseStr);
