@@ -1,5 +1,8 @@
 <?php 
 $submitted = !empty($_POST); 
+    require "../2130 - HTML/header.html";
+    require "../2130 - HTML/login.html";
+
 ?>
 
 <!DOCTYPE html>

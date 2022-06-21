@@ -2,11 +2,11 @@ h1 {
     text-align: center;
 }
 
-fieldset {
-    
+legend {
+    text-align: center;
 }
 
-legend {
+p{
     text-align: center;
 }
 
