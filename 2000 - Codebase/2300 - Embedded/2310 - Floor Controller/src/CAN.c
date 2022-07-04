@@ -215,7 +215,7 @@ void CAN_TX_IRQHandler (void) {
 void CAN_RX0_IRQHandler (void) {
 
   if (CAN->RF0R & CAN_RF0R_FMP0) {			      // message pending ?
-	//CAN_rdMsg (&CAN_RxMsg);                       // read the message
+	  canRdMsg (&CAN_RxMsg);                       // read the message
 
     CAN_RxRdy = 1;                                // set receive flag
   }

@@ -7,6 +7,8 @@
 #define DATA_FRAME       0
 #define REMOTE_FRAME     1
 
+typedef unsigned char uint8_t;
+
 typedef struct  {
   unsigned int   id;                 // 29 bit identifier
   unsigned char  data[8];            // Data field
@@ -16,13 +18,13 @@ typedef struct  {
 } CAN_msg;
 
 /* Functions defined in module CAN.c */
-void CAN_setup         (void);
-void CAN_init          (void);
-void CAN_start         (void);
-void CAN_waitReady     (void);
-void CAN_wrMsg         (CAN_msg *msg);
-void CAN_rdMsg         (CAN_msg *msg);
-void CAN_wrFilter      (unsigned int id, unsigned char filter_type);
+void canSetup         (void);
+void canInit          (void);
+void canStart         (void);
+void canWaitReady     (void);
+void canWrMsg         (CAN_msg *msg, uint8_t canId);
+void canRdMsg         (CAN_msg *msg);
+void canWrFilter      (unsigned int id, unsigned char filter_type, uint8_t canId);
 
 void CAN_testmode      (unsigned int testmode);
 
