@@ -5,7 +5,7 @@
 #ifndef ELEVATOR_H
 #define ELEVATOR_H
 
-#include "stm32f3xx_hal.h"
+#include <stm32f303xe.h>
 
 #define SUPER    0
 #define CAR      1
@@ -16,12 +16,13 @@
 #define CONTROLLER_TYPE FLOOR1
 
 // Common Functions
+void elevatorInit(void);
 void canInit(void);
 void msgRx();
 void msgTx(uint8_t canId, uint8_t msg); // wrapper around HAL CAN TX function
 void processMsg();
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan);
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
+//void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan);
+//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 
 #if CONTROLLER_TYPE == SUPER
 

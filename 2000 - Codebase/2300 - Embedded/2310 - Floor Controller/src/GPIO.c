@@ -95,7 +95,7 @@ void GPIOinit() {
 	GPIO_SET_PUPD(A, GPIO_PIN_15, GPIO_PUPD_NONE); // Debounce1
 
 	  /* EXTI interrupt init*/
-  	HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
-  	HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+  	NVIC_SetPriority(EXTI15_10_IRQn, 0);
+  	NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 }

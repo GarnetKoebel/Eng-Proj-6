@@ -44,7 +44,8 @@
  #define LO_NYBBLE(val) ((val)&0x0F)     // Get low nybble of a byte
  #define HI_NYBBLE(val) (((val)>>4)&0x0F) // Get high nybble of a byte
  #define CLRBITS(reg, bit) (reg) &= ~(bit) // Clear bit at reg
- #define SETBITS(reg, bit) (reg) |= (bit)  // Clear bit at reg
+ #define SETBITS(reg, bit) (reg) |= (bit)  // Set bit at reg
+ //#define TGLBITS(reg, bit) (reg) |= (bit) ^ 1  // Toggle bit at reg NOTE: not done
  
  //GPIO MACROS
  #define GPIO_EN(port) RCC->AHBENR |= RCC_AHBENR_GPIO##port##EN // many a minute was lost to make this macro // simple substitution to make enabling GPIO ports easier

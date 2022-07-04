@@ -1,8 +1,8 @@
 // This is the implementation for the
 #include "Elevator.h"
-#include "stm32f3xx_hal.h"
 #include <stm32f303xe.h>
 #include "macros.h"
+#include "GPIO.h"
 
 #define BUTTON_NOT_PRESSED 	0
 #define BUTTON_PRESSED 		1
@@ -22,15 +22,15 @@
 #define EC_POS_3       0x07 // Elevator reports it is at floor 3
 
 static uint8_t		   RxData[8]; // stores most recent message
-static uint8_t		   newMsg = 0; // tracks if a new message has come in
+//static uint8_t		   newMsg = 0; // tracks if a new message has come in
 
 static uint8_t		   lightStatus = OFF;
-static uint8_t		   ecStatus = EC_STATUS_DEEN; // Keeps track of elevator controller status
+//static uint8_t		   ecStatus = EC_STATUS_DEEN; // Keeps track of elevator controller status
 uint8_t 		   BUTTON = BUTTON_NOT_PRESSED;
 
 
-static CAN_TxHeaderTypeDef TxHeader;
-CAN_HandleTypeDef hcan;
+//static CAN_TxHeaderTypeDef TxHeader;
+//CAN_HandleTypeDef hcan;
 
 // NOTE: HAVE PERIODIC (timer driven) INTERRUPT THAT USES EC STATUS TO DETERMINE LIGHT FLASHING PATTERNS
 
@@ -52,27 +52,31 @@ static void initLEDInterrupt(void) {
 
 }
 
+void elevatorInit(void) {
+	initLEDInterrupt();
+}
+
 void msgRx() {
-	CAN_RxHeaderTypeDef	RxHeader;
+	//CAN_RxHeaderTypeDef	RxHeader;
 
 	//Receive
-	if (HAL_CAN_GetRxMessage(&hcan, CAN_RX_FIFO0, &RxHeader, RxData) != HAL_OK) {
+	//if (HAL_CAN_GetRxMessage(&hcan, CAN_RX_FIFO0, &RxHeader, RxData) != HAL_OK) {
 			//Error_Handler(); // Reception error
-	}
+	//}
 }
 
 void msgTx(uint8_t canId, uint8_t msg) {
 
-	uint32_t			TxMailbox;
-	uint8_t				TxData[8];
+	// uint32_t			TxMailbox;
+	// uint8_t				TxData[8];
 
-	//Transmit
-	TxData[0] = msg;
+	// //Transmit
+	// TxData[0] = msg;
 
-	if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, TxData, &TxMailbox) != HAL_OK) {
-		//Error_Handler();
-	}
-	newMsg = 1;
+	// //if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, TxData, &TxMailbox) != HAL_OK) {
+	// 	//Error_Handler();
+	// //}
+	// newMsg = 1;
 
 }
 
@@ -158,19 +162,19 @@ void processMsg() { // process most recent message and clear flag
 
 #endif
 
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) { // receive messae
-	msgRx();
+// void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) { // receive messae
+// 	msgRx();
 
-	//	if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHeader, RxData) != HAL_OK) {
-//		Error_Handler(); // Reception error
-//	}
-}
+// 	//	if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHeader, RxData) != HAL_OK) {
+// //		Error_Handler(); // Reception error
+// //	}
+// }
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-	if (GPIO_Pin == GPIO_PIN_13) {
-		BUTTON = BUTTON_PRESSED;
-	}
-}
+// void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+// 	if (GPIO_Pin == GPIO_PIN_13) {
+// 		BUTTON = BUTTON_PRESSED;
+// 	}
+// }
 
 void TIM3_IRQHandler(void) { //! <pre>Breif Description: PI Control system trigger handler.</pre>
 	 /*! <pre>
@@ -185,9 +189,15 @@ void TIM3_IRQHandler(void) { //! <pre>Breif Description: PI Control system trigg
 	 *                        indicator lights
 	 *</pre>
 	*/
-
-		HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-		HAL_Delay(2000);
+		
+		if (BIT_IS_SET(GPIOC->ODR, GPIO_PIN_13)) {
+			SET_BITS(GPIOC->ODR, GPIO_PIN_13);
+		} else {
+			CLR_BITS(GPIOC->ODR, GPIO_PIN_13);
+		}
+		//TGLBITS(GPIOC, GPIO_PIN_13);
+		//HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+		//HAL_Delay(2000);
 		TIMER_CLEAR_UIF(3); // Clear update interrupt flag after handling
 
  }

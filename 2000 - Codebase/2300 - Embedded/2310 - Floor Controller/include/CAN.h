@@ -26,10 +26,10 @@ void CAN_wrFilter      (unsigned int id, unsigned char filter_type);
 
 void CAN_testmode      (unsigned int testmode);
 
-extern CAN_msg       CAN_TxMsg;      // CAN messge for sending
-extern CAN_msg       CAN_RxMsg;      // CAN message for receiving                                
-extern unsigned int  CAN_TxRdy;      // CAN HW ready to transmit a message
-extern unsigned int  CAN_RxRdy;      // CAN HW received a message
+CAN_msg       CAN_TxMsg;      // CAN messge for sending
+CAN_msg       CAN_RxMsg;      // CAN message for receiving                                
+unsigned int  CAN_TxRdy;      // CAN HW ready to transmit a message
+unsigned int  CAN_RxRdy;      // CAN HW received a message
 
 #endif // CAN_H
 
