@@ -78,7 +78,22 @@
 		 
 	 } else {
 	 
-	 
+	 			//NOTE: wrap pin configuration in a function for reuse (with ifs and stuff for automatically determining which GPIO port to use)
+		GPIOA->MODER &= ~(0xF << (2*2)); 	// clear mode bits 2 and 3 (changing two bits 2 sections down (from bit 0)
+		GPIOA->MODER |= 0xA << (2*2); 		// select alternate function mode
+		GPIOA->AFR[0] |= 0x77 << (4*2);		// set pin 2 and 3 to alternate function 7 (NOTE: AFR is a 2 spot array AFR[0] is low register AFR[1] is high register
+	
+		GPIOA->PUPDR &= ~(0xF << (2*2)); // clear pullup bits
+		//GPIOA->PUPDR |= 0x5 << (2*2);	 // disable pullups
+	
+		GPIOA->OSPEEDR &= ~(0xF << (2*2));
+	
+		GPIOA->OTYPER &= ~(0x3 << 2);		 // set output type to push/pull
+		
+	// NOTE: move this code block to UART.c
+		RCC->APB1ENR |= RCC_APB1ENR_USART2EN; //Enable USART2 Clock
+		RCC->CFGR3 &= ~(RCC_CFGR3_USART2SW); // clear clock selection bits
+		RCC->CFGR3 |= (RCC_CFGR3_USART2SW_0); // select clock source	
 		
 		USARTx->CR1 &= ~USART_CR1_UE; 		// disable USART
 		USARTx->CR1 &= ~USART_CR1_M;		  // set datalength to 8 bits
