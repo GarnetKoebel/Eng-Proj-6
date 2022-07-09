@@ -24,7 +24,7 @@
 #define EC_POS_3       0x07 // Elevator reports it is at floor 3
 
 static uint8_t		   RxData[8]; // stores most recent message
-static uint8_t		   newMsg = 0; // tracks if a new message has come in
+//static uint8_t		   newMsg = 0; // tracks if a new message has come in
 
 static uint8_t		   lightStatus = OFF;
 static uint8_t		   ecStatus = EC_STATUS_DEEN; // Keeps track of elevator controller status

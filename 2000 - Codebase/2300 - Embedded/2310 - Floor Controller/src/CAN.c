@@ -102,7 +102,7 @@ void canWaitReady (void)  {
 /*----------------------------------------------------------------------------
   wite a message to CAN peripheral and transmit it
  *----------------------------------------------------------------------------*/
-void canWrMsg (CAN_msg *msg)  {
+void canWrMsg (CAN_msg *msg, uint8_t canId)  {
 
   CAN->sTxMailBox[0].TIR  = (unsigned int)0;      // Reset TIR register
                                                   // Setup identifier information
