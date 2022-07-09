@@ -60,7 +60,7 @@ void canInit(void) {
   CAN->BTR |= CAN_BTR_SJW_1; // Set SJW to 1TQ
   CAN->BTR |= CAN_BTR_TS1_2; // Set TS1 to 4TQ
   CAN->BTR |= CAN_BTR_TS2_2; // Set TS2 to 4TQ
-  CAN->BTR |= CAN_BTR_BRP | 32-1U; // Set prescalar to 32
+  CAN->BTR |= CAN_BTR_BRP | (32-1U); // Set prescalar to 32
 
   // Setup CAN Filter
   CAN->FMR |= CAN_FMR_FINIT; // Put CAN filters in init mode
@@ -102,7 +102,7 @@ void canWaitReady (void)  {
 /*----------------------------------------------------------------------------
   wite a message to CAN peripheral and transmit it
  *----------------------------------------------------------------------------*/
-void canWrMsg (CAN_msg *msg, uint8_t canId)  {
+void canWrMsg (CAN_msg *msg)  {
 
   CAN->sTxMailBox[0].TIR  = (unsigned int)0;      // Reset TIR register
                                                   // Setup identifier information
