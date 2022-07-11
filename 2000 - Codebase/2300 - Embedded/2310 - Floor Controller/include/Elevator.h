@@ -19,9 +19,10 @@
 // Common Functions
 void elevatorInit(void);
 void canInit(void);
-void msgRx();
+void msgRx(void);
 void msgTx(unsigned char data[8]); // wrapper around HAL CAN TX function
-void processMsg();
+void processMsg(void);
+void EXTI15_10_IRQHandler(void);
 //void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan);
 //void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 

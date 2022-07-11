@@ -29,9 +29,18 @@ unsigned int  CAN_RxRdy;      // CAN HW received a message
 
 void canStart (void)  {
   CAN_SET_MODE_NORM;  // normal operating mode, reset INRQ
-  //while (CAN->MSR & CAN_MCR_INRQ); // wait for CAN to start
+  while (CAN->MSR & CAN_MCR_INRQ); // wait for CAN to start
 
 }
+
+typedef const struct
+{
+	uint8_t TS2;
+	uint8_t TS1;
+	uint8_t BRP;
+} CAN_bit_timing_config_t;
+enum BITRATE{CAN_50KBPS, CAN_100KBPS, CAN_125KBPS, CAN_250KBPS, CAN_500KBPS, CAN_1000KBPS};
+CAN_bit_timing_config_t can_configs[6] = {{2, 13, 45}, {2, 15, 20}, {2, 13, 18}, {2, 13, 9}, {2, 15, 4}, {2, 15, 2}};
 
 void canInit(void) {
 //	unsigned int brp = stm32_GetPCLK1();
@@ -39,7 +48,7 @@ void canInit(void) {
 
  	CAN_EN;              // enable clock for CAN
   GPIO_EN(A);          // enable GPIO clock for port used by CAN
-
+  RCC->APB2ENR |= 0x1UL;
   // Setup CAN GPIO Pins
   GPIO_SET_MODE(A, CAN_RX_PIN, GPIO_MODE_AF);
   GPIO_SET_OTYPE(A, CAN_RX_PIN, GPIO_OTYPE_PUSHPULL);
@@ -57,10 +66,10 @@ void canInit(void) {
 
   /* set BTR register so that sample point is at about 72% bit time from bit start */
   /* TSEG1 = 12, TSEG2 = 5, SJW = 4 => 1 CAN bit = 18 TQ, sample at 72%    */
-  CAN->BTR |= CAN_BTR_SJW_1; // Set SJW to 1TQ
-  CAN->BTR |= CAN_BTR_TS1_2; // Set TS1 to 4TQ
-  CAN->BTR |= CAN_BTR_TS2_2; // Set TS2 to 4TQ
-  CAN->BTR |= CAN_BTR_BRP | (32-1U); // Set prescalar to 32
+  // CAN->BTR |= CAN_BTR_SJW_1; // Set SJW to 1TQ
+  // CAN->BTR |= CAN_BTR_TS1_2; // Set TS1 to 4TQ
+  // CAN->BTR |= CAN_BTR_TS2_2; // Set TS2 to 4TQ
+  // CAN->BTR |= CAN_BTR_BRP | 32-1U; // Set prescalar to 32
 
   // Setup CAN Filter
   CAN->FMR |= CAN_FMR_FINIT; // Put CAN filters in init mode
@@ -70,9 +79,12 @@ void canInit(void) {
   CAN->sFilterRegister[0].FR1 = 0x0100 << 5; // Set Bank 0 Filter 1 (FIFO0) id filter
   CAN->FA1R |= CAN_FA1R_FACT0; // Activate FIFO0
 	CAN->FMR &= ~CAN_FMR_FINIT;
+  
+  CAN->BTR &= ~(((0x03) << 24) | ((0x07) << 20) | ((0x0F) << 16) | (0x1FF)); 
+	CAN->BTR |=  (((can_configs[CAN_125KBPS].TS2-1) & 0x07) << 20) | (((can_configs[CAN_125KBPS].TS1-1) & 0x0F) << 16) | ((can_configs[CAN_125KBPS].BRP-1) & 0x1FF);
 
-  //CAN->BTR &= ~(((        0x03) << 24) | ((        0x07) << 20) | ((         0x0F) << 16) | (          0x1FF)); 
-  //CAN->BTR |=  ((((4-1) & 0x03) << 24) | (((5-1) & 0x07) << 20) | (((12-1) & 0x0F) << 16) | ((brp-1) & 0x1FF));
+  // CAN->BTR &= ~(((        0x03) << 24) | ((        0x07) << 20) | ((         0x0F) << 16) | (          0x1FF)); 
+  // CAN->BTR |=  ((((4-1) & 0x03) << 24) | (((5-1) & 0x07) << 20) | (((12-1) & 0x0F) << 16) | ((32-1) & 0x1FF));
 
   NVIC_EnableIRQ(CAN_TX_IRQn);  // Enable CAN TX Interrupt
   NVIC_EnableIRQ(CAN_RX0_IRQn); // Enable CAN RX Interrupt
