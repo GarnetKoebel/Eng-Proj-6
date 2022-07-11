@@ -9,8 +9,6 @@
 #define BLUE_BUTTON_PRESSED 1
 
 int main(void) {
-	System_Clock_Init();
-	SystemCoreClockUpdate();
 	elevatorInit(); // initialize elevator controls
 
 	UARTinit(USART2, 0x1D4C);

@@ -4,7 +4,6 @@
 #include "macros.h"
 #include "GPIO.h"
 #include "CAN.h"
-#include "UART.h"
 
 #define BUTTON_NOT_PRESSED 	0
 #define BUTTON_PRESSED 		1
@@ -24,13 +23,18 @@
 #define EC_POS_3       0x07 // Elevator reports it is at floor 3
 
 static uint8_t		   RxData[8]; // stores most recent message
-//static uint8_t		   newMsg = 0; // tracks if a new message has come in
+static uint8_t		   newMsg = 0; // tracks if a new message has come in
 
 static uint8_t		   lightStatus = OFF;
 static uint8_t		   ecStatus = EC_STATUS_DEEN; // Keeps track of elevator controller status
 uint8_t 		   	   BUTTON = BUTTON_NOT_PRESSED;
 
 CAN_msg       CAN_TxMsg;      // CAN messge for sending
+
+//static CAN_TxHeaderTypeDef TxHeader;
+//CAN_HandleTypeDef hcan;
+
+// NOTE: HAVE PERIODIC (timer driven) INTERRUPT THAT USES EC STATUS TO DETERMINE LIGHT FLASHING PATTERNS
 
 static void ledInterruptInit(void) {
 		 TIMER3_CLK_EN; 									// enable clock to timer 3
@@ -225,21 +229,14 @@ void processMsg() { // process most recent message and clear flag
 
 #endif
 
-
-
 void elevatorInit(void) { // initialize required subsystems
-	switchInit();
 	ledInterruptInit();
 	canInit();
 
 	// Enable Button Interrupts
 	// Setup Stepper Limit Switch Inturrupts
-	// Set SYSCFG EXTICR4 Bits 7-4 to select pin PC13 as interrupt source
-	 RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN; // enable syscfg clock
-	 SYSCFG->EXTICR[3] = SYSCFG_EXTICR4_EXTI13_PC; // select interuppt source
 	 EXTI_SET_IMR1(IMR1_BIT_13); 		// Set interrupt mask register for EXTI line 13
 	 EXTI_SET_RTSR1(RTSR1_BIT_13);		// Set rising edge interrupt trigger register for EXTI line 13
-	 NVIC_SetPriority(EXTI15_10_IRQn, 0);
 	 NVIC_EnableIRQ(EXTI15_10_IRQn);	// Enable EXTI lines 15 to 10 in NVIC
 
 	// Populate CAN_TxMsg default values
@@ -261,7 +258,7 @@ void msgTx(unsigned char data[8]) { // transmit a CAN message
 		CAN_TxMsg.data[i] = data[i];
 	}
 	canWrMsg(&CAN_TxMsg);
-	//newMsg = 1;
+	newMsg = 1;
 
 }
 
@@ -279,7 +276,16 @@ void EXTI15_10_IRQHandler(void) {
 	msgTx(FLOOR_CALL); // register a floor call
 	EXTI->PR |= EXTI_PR_PR13; // clear pending bit by writing a 1 to it.
 
+void EXIT_IRQ15_10IRQn(void) {
+	BUTTON = BUTTON_PRESSED;
+
 }
+
+// void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+// 	if (GPIO_Pin == GPIO_PIN_13) {
+// 		BUTTON = BUTTON_PRESSED;
+// 	}
+// }
 
 void TIM3_IRQHandler(void) { //! <pre>Breif Description: Switch Light Control system trigger handler.</pre>
 	 /*! <pre>
