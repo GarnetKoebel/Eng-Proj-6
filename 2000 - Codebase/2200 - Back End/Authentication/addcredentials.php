@@ -32,7 +32,7 @@ function fileWriteAppend(){
 
 		);
 		$array_data[] = $extra;
-		$json_data = json_encode($array_data);
+		$json_data = json_encode($array_data, JSON_PRETTY_PRINT);
 		return $json_data;
 }
 function fileCreateWrite(){
@@ -50,8 +50,12 @@ function fileCreateWrite(){
 
 		);
 		$array_data[] = $extra;
-		$json_data = json_encode($array_data);
+		$json_data = json_encode($array_data, JSON_PRETTY_PRINT);
 		fclose($file);
 		return $json_data;
 }
+
+	require "../../2100 - Front End/2130 - HTML/header.html";
+    echo "<p>Copyright &copy Giordan Pellegrino & Garnet Koebel</p>";
+
 ?>

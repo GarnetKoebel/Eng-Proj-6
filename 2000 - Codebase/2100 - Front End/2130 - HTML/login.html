@@ -10,24 +10,39 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <title>Login</title>
-    <link href="../2110 - CSS/loginstyle.css" type="text/css" rel="stylesheet"/>
+
+    <script src="../../2100 - Front End/2140 - JavaScript/check2.js"></script>
     
   </head>
   <body>
   <form method="post" action="../../2200 - Back End/Authentication/Authenticate.php">
-    <fieldset>
+    <div class="row">
+      <div class="column">
+        <img src="../../2100 - Front End/2160 - Pictures/rickroll-roll.gif" alt="left" style="width: 100%" />
+      </div>
+      <div class="column">
       <legend>Login</legend>
-      <label>Username:</label>
-      <input type="text" name="user" required /><br />
-      <label>Password:</label>
-      <input type="text" name="pass" required /><br />
-      <p>&nbsp;</p>
-      <p class="submit"><input type="submit" name="submit" value="Login"></p>
-      <p>&nbsp;</p>
-    </fieldset>
-    <p><a href="../2150 - PHP/Index.php">Home</a></p>
-    <p><a id="req_acc" href="../2150 - PHP/request_access.php">Request Access</a></p>
-    <p>Copyright &copy Giordan Pellegrino & Garnet Koebel</p>
+      <div class="form-outline mb-4">
+        <label class="form-label" for="form2Example1">Email or Username:</label>
+        <input type="text" name="user" required id="form2Example1" class="form-control"/>
+      </div>
+      <div class="form-outline mb-4">
+        <label class="form-label" for="form2Example1">Password:</label>
+        <input type="password" name="pass" required id="form2Example1" class="form-control" onblur="errorMessage2(pass)" />
+        <span id="error2"></span> <br />
+      </div><br> <br/>
+      
+      <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+
+      <div class="text-center">
+        <p>Not a member? <a href="../../2100 - Front End/2150 - PHP/request_access.php">Register</a></p>
+      </div>
+    </div>
+    <div class="column">
+      <img src="../../2100 - Front End/2160 - Pictures/rickroll-roll.gif" alt="right" style="width: 100%" />
+    </div>
+    </div>
+    
   </form>
   </body>
 </html>

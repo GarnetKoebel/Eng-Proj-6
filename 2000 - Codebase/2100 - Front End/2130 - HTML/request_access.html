@@ -10,8 +10,9 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-
-    <link rel="stylesheet" href="../2110 - CSS/style_request_access.css" type="text/css"/>
+    
+    <script src="../../2100 - Front End/2140 - JavaScript/check.js"></script>
+    <script src="../../2100 - Front End/2140 - JavaScript/check2.js"></script>
 
     <title>Request Access</title>
 
@@ -19,42 +20,71 @@
   <body>
     <h1>Request Access</h1>
     <form action="../../2200 - Back End/Authentication/addcredentials.php" method="post" id="access">
-      <fieldset>
+<div class="row">
+  <div class="column">
+    <img src="../../2100 - Front End/2160 - Pictures/rickroll-roll.gif" alt="left" style="width: 100%" />
+  </div>
+  <div class="column">
         <legend>Contact Details</legend>
-        <p>First name: <input type="text" name="firstName" /></p>
-        <p>Last name: <input type="text" name="lastName" /></p>
-        <p>Username: <input type="text" name="user" /></p>
-        <p>Password: <input type="text" name="pass" /></p>
-        <p>Email: <input type="email" name="email" /></p>
-        <p>DOB: <input type="date" name="DOB" /></p>
-        <p>Website: <input type="url" name="Website" /></p>
-        <label
-          ><input type="radio" name="fac_or_student" value="faculty" /> Faculty
-        </label>
-        <label
-          ><input type="radio" name="fac_or_student" value="Sudent" /> Student<br />
-        </label>
+        <div class="form-outline mb-4">
+          <label class="form-label" for="form2Example1">Firstname:</label>
+          <input type="text" name="firstName" required id="form2Example1" class="form-control" required />
+        </div><br />
+        <div class="form-outline mb-4">
+          <label class="form-label" for="form2Example1">Lastname:</label>
+          <input type="text" name="lastName" required id="form2Example1" class="form-control" required />
+        </div><br />
+        <div class="form-outline mb-4">
+          <label class="form-label" for="form2Example1">Username:</label>
+          <input type="text" name="user" required id="form2Example1" class="form-control" onblur="errorMessage1(user)" required />
+          <span id="error1"></span> <br />
+        </div>
+        <div class="form-outline mb-4">
+          <label class="form-label" for="form2Example1">Password:</label>
+          <input type="password" name="pass" required id="form2Example1" class="form-control" onblur="errorMessage2(pass)" required />
+          <span id="error2"></span> <br />
+        </div>
+        <div class="form-outline mb-4">
+          <label class="form-label" for="form2Example1">Email:</label>
+          <input type="email" name="email" required id="form2Example1" class="form-control" required />
+        </div><br />
+        <div class="form-outline mb-4">
+          <label class="form-label" for="form2Example1">DOB:</label>
+          <input type="date" name="DOB" required id="form2Example1" class="form-control" required />
+        </div><br />
 
-        <label><input type="checkbox" name="involvement[]" value="none" /> None<br />
-        </label>
-        <label><input type="checkbox" name="involvement[]" value="some" /> Some<br />
-        </label>
-        <label><input type="checkbox" name="involvement[]" value="lots" /> Lots<br />
-        </label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="fac_or_student" id="flexRadioDefault1" required>
+          <label class="form-check-label" for="flexRadioDefault1">
+            Faculty
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="fac_or_student" id="flexRadioDefault2" required>
+          <label class="form-check-label" for="flexRadioDefault2">
+            Student
+          </label>
+        </div>
 
-        <p>Do you drive?</p>
-        <select name="driver" id="car">
-          <option value="no_answer" selected></option>
+        <select class="form-select form-control" name="driver" id="car" aria-label="select" required>
+          <option selected>Do you drive?</option>
           <option value="no">No</option>
           <option value="yes">Yes</option>
         </select>
 
-        <p>Tell us about yourself</p>
-        <textarea class="text" name="info" cols="30" rows="10"> Here is what I can say ... </textarea><br />
-        <input class="submit" type="submit" />
-        <a href="../2150 - PHP/Index.php">Home</a>
-      </fieldset>
+        <div class="form-group">
+          <label for="textarea1">Tell us about yourself</label>
+          <textarea class="form-control" id="textarea1" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+
+
+        </div>
+        <div class="column">
+          <img src="../../2100 - Front End/2160 - Pictures/rickroll-roll.gif" alt="right" style="width: 100%" />
+        </div>
+        </div>
     </form>
-    <p>Copyright &copy Giordan Pellegrino & Garnet Koebel</p>
   </body>
 </html>

@@ -1,1 +1,22 @@
-[{"firstName":"Giordan","lastName":"Pellegrino","username":"Pellegi","password":"Bw-180hh","email":"Giordanpelle@gmail.com","DOB":"1998-10-02","FoS":"Sudent","driver":"yes"}]
+[
+    {
+        "firstName": "Giordan",
+        "lastName": "Pellegrino",
+        "username": "Pellegi",
+        "password": "Bw-180hh",
+        "email": "gpellegrino1310@conestogac.on.ca",
+        "DOB": "1998-10-02",
+        "FoS": "on",
+        "driver": "yes"
+    },
+    {
+        "firstName": "NeverGonna",
+        "lastName": "GiveYouUp",
+        "username": "AstleyRick",
+        "password": "1!asdfghjkl;A",
+        "email": "gkoebel9822@conestogac.on.ca",
+        "DOB": "2001-04-18",
+        "FoS": "on",
+        "driver": "yes"
+    }
+]

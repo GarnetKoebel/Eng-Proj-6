@@ -1,0 +1,111 @@
+body {
+    background-color: #a4a4ac;
+}
+
+h1,h2,h3,li,ul,figcaption,ol,thead,tbody,tfoot,tr,th {
+    text-align: center;
+    list-style-position: inside;
+    color: #362b1b;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.t{
+    border: #362b1b 2px solid;
+}
+
+fieldset{
+    border: #362b1b 1px solid;
+}
+
+legend {
+    text-align: center;
+    color: #362b1b;
+    background-color: #9c6c64;
+    border: #362b1b 1px solid; 
+    border-radius: 5px;
+}
+
+p{
+    text-align: center;
+    color: #362b1b;
+}
+
+input[type="radio"]{
+    accent-color: #362b1b;
+    background-color: #c2c2d9;
+}
+
+.form-select, .form-control, .form-outline .form-control{
+    background-color: #c2c2d9;
+    border-color: #362b1b;
+}
+
+.form-select:focus, .form-control:focus, .form-outline .form-control:focus {
+    box-shadow: 0 0 3px #362b1b;
+}
+
+.btn-primary:hover {
+    background-color: #7c6e66 !important;
+    color: #a4a4ac !important;
+}
+
+button[type=submit] {
+    background-color: #c2c2d9 !important;
+    color: #362b1b !important;
+    border-color: #362b1b;
+}
+
+.btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+    background-color: #c2c2d9 !important;
+    color: #362b1b !important;
+    border-color: #362b1b;
+
+}
+
+.btn-primary:hover{
+    background-color: #7c6e66 !important;
+    color: #a4a4ac !important;
+}
+
+.navbar-custom,
+.navbar-custom .dropdown .dropdown-menu {
+    background-color: #9c6c64;
+}
+
+.navbar-custom .dropdown .dropdown-menu .nav-item .nav-link:hover,
+.navbar-custom .dropdown:active,
+.navbar-custom .dropdown:focus{
+    background-color: #7c6e66;
+}
+
+.navbar-custom .nav-item .nav-link,
+.navbar-custom .navbar-header .navbar-brand,
+.navbar-custom .dropdown .dropdown-toggle{
+    color: #362b1b;
+}
+
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+    float: left;
+    width: 33%;
+    padding: 5px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+  /* Fixes dropdown menus placed on the right side */
+  .ml-auto {
+      left: auto !important;
+      right: 0px;
+  }
