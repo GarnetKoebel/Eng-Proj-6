@@ -30,6 +30,8 @@ static uint8_t		   lightStatus = OFF;
 static uint8_t		   ecStatus = EC_STATUS_DEEN; // Keeps track of elevator controller status
 uint8_t 		   	   BUTTON = BUTTON_NOT_PRESSED;
 
+extern CAN_RxRdy;
+extern CAN_msg CAN_RxMsg;
 CAN_msg       CAN_TxMsg;      // CAN messge for sending
 
 //static CAN_TxHeaderTypeDef TxHeader;
@@ -39,9 +41,9 @@ CAN_msg       CAN_TxMsg;      // CAN messge for sending
 
 static void ledInterruptInit(void) {
 		 TIMER3_CLK_EN; 									// enable clock to timer 3
-		 TIMER_SET_PSC(3, 71UL); 					// Program the TIM3 prescaler so TIM3 counts in useconds (tick rate)
+		 TIMER_SET_PSC(3, 71UL*8); 					// Program the TIM3 prescaler so TIM3 counts in useconds (tick rate)
 		 TIMER_EN(3); 										// enables counter on TIM3
-		 TIMER_SET_ARR(3, (1000000UL / 4));  		// Program TIM3 ARR to  period ( useconds) (ticks before reload) // Trigger 4 times a second
+		 TIMER_SET_ARR(3, (1000000UL));  		// Program TIM3 ARR to  period ( useconds) (ticks before reload) // Trigger 4 times a second
 		 TIMER_SET_DIR(3, TIMER_DIR_UP); 	// Set TIM3 counting direction to up-counting
 		 TIM3->CR1 |= TIM_CR1_ARPE;
 	     TIMER_MAINOUT_EN(3);							// Set Main Output Enable (MOE) in BDTR
@@ -104,12 +106,16 @@ uint8_t floorReq(void) { // Register floor request
 #define FLOOR_CALL		0x01
 
 void processMsg() { // process most recent message and clear flag
-	if (RxData[0] == EC_POS_1) {
-		lightStatus = SOLID;
-	} else if (RxData[0] == EC_POS_MOV) {
-		lightStatus = FAST_BLINK;
+	if (CAN_RxRdy == 1) {
+		if (CAN_RxMsg.data[0] == EC_POS_1) {
+			lightStatus = SOLID;
+		} else if (CAN_RxMsg.data[0] == EC_POS_MOV) {
+			lightStatus = FAST_BLINK;
+		} else {
+			lightStatus = OFF;
+		}
+		CAN_RxRdy = 0;
 	}
-
 }
 
 
@@ -120,10 +126,16 @@ void processMsg() { // process most recent message and clear flag
 #define FLOOR_CALL		0x01
 
 void processMsg() { // process most recent message and clear flag
-	if (RxData[0] == EC_POS_2) {
-		lightStatus = SOLID;
+	if (CAN_RxRdy == 1) {
+		if (CAN_RxMsg.data[0] == EC_POS_2) {
+			lightStatus = SOLID;
+		} else if (CAN_RxMsg.data[0] == EC_POS_MOV) {
+			lightStatus = FAST_BLINK;
+		} else {
+			lightStatus = OFF;
+		}
+		CAN_RxRdy = 0;
 	}
-
 }
 
 #endif
@@ -133,10 +145,16 @@ void processMsg() { // process most recent message and clear flag
 #define FLOOR_CALL		0x01
 
 void processMsg() { // process most recent message and clear flag
-	if (RxData[0] == EC_POS_3) {
-		lightStatus = SOLID;
+	if (CAN_RxRdy == 1) {
+		if (CAN_RxMsg.data[0] == EC_POS_3) {
+			lightStatus = SOLID;
+		} else if (CAN_RxMsg.data[0] == EC_POS_MOV) {
+			lightStatus = FAST_BLINK;
+		} else {
+			lightStatus = OFF;
+		}
+		CAN_RxRdy = 0;
 	}
-
 }
 
 #endif
@@ -158,17 +176,10 @@ void elevatorInit(void) { // initialize required subsystems
 
 	// Populate CAN_TxMsg default values
 	CAN_TxMsg.id = CAN_ID;
-	CAN_TxMsg.len = 0x02; // set DLC to 2 for 2 bytes of data
+	CAN_TxMsg.len = 0x01; // set DLC to 2 for 2 bytes of data
 	CAN_TxMsg.format = STANDARD_FORMAT;
 	CAN_TxMsg.type = DATA_FRAME;
-	CAN_TxMsg.data[0] = (char)0x0;
-	CAN_TxMsg.data[1] = (char)0x0;
-	CAN_TxMsg.data[2] = (char)0x0;
-	CAN_TxMsg.data[3] = (char)0x0;
-	CAN_TxMsg.data[4] = (char)0x0;
-	CAN_TxMsg.data[5] = (char)0x0;
-	CAN_TxMsg.data[6] = (char)0x1;
-	CAN_TxMsg.data[7] = (char)0x0;
+	CAN_TxMsg.data[0] = 0x01;
 }
 
 void msgRx() { // wrapper around low level CAN, abstracts some stuff for the user (unneeded messages are read by interrupt)
@@ -217,9 +228,11 @@ void TIM3_IRQHandler(void) { //! <pre>Breif Description: PI Control system trigg
 	 *                        indicator lights
 	 *</pre>
 	*/
-	//UARTputc('T', USART2); // DEBUG
+	UARTputc('T', USART2); // DEBUG
+	static int ledState = 0;
+
 	if (lightStatus == SLOW_BLINK) { // set timer registers for slow blinking
-		TIMER_SET_ARR(3, (1000000UL / 4)); 
+		TIMER_SET_ARR(3, (1000000UL)); 
 	} else if (lightStatus == FAST_BLINK) { // set timer registers for fast blinking
 		TIMER_SET_ARR(3, (1000000UL)); 
 	} else if (lightStatus == SOLID) { // turn on led
@@ -233,10 +246,12 @@ void TIM3_IRQHandler(void) { //! <pre>Breif Description: PI Control system trigg
 
 	// Control light blinking
 	if (lightStatus != OFF && lightStatus != SOLID) { // only run if light is in blinking state
-		if (BIT_IS_SET(GPIOC->ODR, PC10)) {
+		if (ledState == 1) {
 			GPIO_SET_ODR(C, PC10, 0);
+			ledState = 0;
 		} else {
 			GPIO_SET_ODR(C, PC10, 1);
+			ledState = 1;
 		}
 	}
 	TIMER_CLEAR_UIF(3); // Clear update interrupt flag after handling

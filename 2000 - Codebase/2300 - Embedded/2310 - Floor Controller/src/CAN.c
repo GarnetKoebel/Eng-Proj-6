@@ -131,17 +131,19 @@ void canWrMsg (CAN_msg *msg)  {
       CAN->sTxMailBox[0].TIR |= CAN_RTR_REMOTE;
   }
                                                   // Setup data bytes
-  CAN->sTxMailBox[0].TDLR = (((unsigned int)msg->data[3] << 24) | 
-                             ((unsigned int)msg->data[2] << 16) |
-                             ((unsigned int)msg->data[1] <<  8) | 
-                             ((unsigned int)msg->data[0])        );
-  CAN->sTxMailBox[0].TDHR = (((unsigned int)msg->data[7] << 24) | 
-                             ((unsigned int)msg->data[6] << 16) |
-                             ((unsigned int)msg->data[5] <<  8) |
-                             ((unsigned int)msg->data[4])        );
+  CAN->sTxMailBox[0].TDLR = ((unsigned int)msg->data[0]);
+
+  // CAN->sTxMailBox[0].TDLR = (((unsigned int)msg->data[3] << 24) | 
+  //                            ((unsigned int)msg->data[2] << 16) |
+  //                            ((unsigned int)msg->data[1] <<  8) | 
+  //                            ((unsigned int)msg->data[0])        );
+  // CAN->sTxMailBox[0].TDHR = (((unsigned int)msg->data[7] << 24) | 
+  //                            ((unsigned int)msg->data[6] << 16) |
+  //                            ((unsigned int)msg->data[5] <<  8) |
+  //                            ((unsigned int)msg->data[4])        );
                                                   // Setup length
-  CAN->sTxMailBox[0].TDTR &= ~CAN_TDT0R_DLC;
-  CAN->sTxMailBox[0].TDTR |=  (msg->len & CAN_TDT0R_DLC);
+  CAN->sTxMailBox[0].TDTR &= ~(0xF);
+  CAN->sTxMailBox[0].TDTR |=  (1 & 0xFUL);
 
   CAN->IER |= CAN_IER_TMEIE;                      // enable  TME interrupt 
   CAN->sTxMailBox[0].TIR |=  CAN_TI0R_TXRQ;       // transmit message
