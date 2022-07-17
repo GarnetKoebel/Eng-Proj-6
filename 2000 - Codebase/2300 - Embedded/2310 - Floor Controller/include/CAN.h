@@ -17,7 +17,7 @@ typedef struct  {
   unsigned char  type;               // 0 - DATA FRAME, 1 - REMOTE FRAME
 } CAN_msg;
 
-extern CAN_msg       CAN_TxMsg;      // CAN messge for sending
+extern volatile CAN_msg       CAN_TxMsg;      // CAN messge for sending
 
 /* Functions defined in module CAN.c */
 void canSetup         (void);

@@ -2,6 +2,7 @@
 #include "macros.h"
 #include "GPIO.h"
 #include <stm32f303xe.h>
+#include "utils.h"
 
 #define CAN_EN RCC->APB1ENR |= RCC_APB1ENR_CANEN
 #define CAN_ABOM_EN CAN->MCR |= CAN_MCR_ABOM
@@ -131,8 +132,9 @@ void canWrMsg (CAN_msg *msg)  {
       CAN->sTxMailBox[0].TIR |= CAN_RTR_REMOTE;
   }
                                                   // Setup data bytes
+  waitMs(250);
   CAN->sTxMailBox[0].TDLR = ((unsigned int)msg->data[0]);
-
+  waitMs(250);
   // CAN->sTxMailBox[0].TDLR = (((unsigned int)msg->data[3] << 24) | 
   //                            ((unsigned int)msg->data[2] << 16) |
   //                            ((unsigned int)msg->data[1] <<  8) | 
@@ -142,9 +144,11 @@ void canWrMsg (CAN_msg *msg)  {
   //                            ((unsigned int)msg->data[5] <<  8) |
   //                            ((unsigned int)msg->data[4])        );
                                                   // Setup length
+  waitMs(250);                                              
   CAN->sTxMailBox[0].TDTR &= ~(0xF);
+  waitMs(250);
   CAN->sTxMailBox[0].TDTR |=  (1 & 0xFUL);
-
+  waitMs(250);
   CAN->IER |= CAN_IER_TMEIE;                      // enable  TME interrupt 
   CAN->sTxMailBox[0].TIR |=  CAN_TI0R_TXRQ;       // transmit message
 }

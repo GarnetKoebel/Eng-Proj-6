@@ -32,7 +32,7 @@ uint8_t 		   	   BUTTON = BUTTON_NOT_PRESSED;
 
 extern CAN_RxRdy;
 extern CAN_msg CAN_RxMsg;
-CAN_msg       CAN_TxMsg;      // CAN messge for sending
+volatile CAN_msg       CAN_TxMsg;      // CAN messge for sending
 
 //static CAN_TxHeaderTypeDef TxHeader;
 //CAN_HandleTypeDef hcan;
@@ -180,6 +180,8 @@ void elevatorInit(void) { // initialize required subsystems
 	CAN_TxMsg.format = STANDARD_FORMAT;
 	CAN_TxMsg.type = DATA_FRAME;
 	CAN_TxMsg.data[0] = 0x01;
+
+	//canWrMsg(&CAN_TxMsg); // first message is garbage (unknown reason) so send it here
 }
 
 void msgRx() { // wrapper around low level CAN, abstracts some stuff for the user (unneeded messages are read by interrupt)

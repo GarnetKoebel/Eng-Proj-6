@@ -21,7 +21,7 @@ int main(void) {
 
 
 	  processMsg();
-
+	  //UARTprintf("Len: %x Dat: %x\n", CAN->sTxMailBox[0].TDTR, CAN->sTxMailBox[0].TDLR);
 	  //Transmit
 	  //if (BUTTON !=0) {
 		  //msgTx();
