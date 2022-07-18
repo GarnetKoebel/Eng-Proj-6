@@ -3,7 +3,7 @@
 function update_elevatorNetwork(int $node_ID, int $new_status) : void {
     $db = new PDO(
         'mysql:host=127.0.0.1;dbname=elevator',
-        'giordan',
+        'ese',
         'ese'
     );
     $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
@@ -22,7 +22,7 @@ if(isset($_SESSION['username'])) {
 
     $db = new PDO(
         'mysql:host=127.0.0.1;dbname=elevator',
-        'giordan',
+        'ese',
         'ese'
     );
     $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
