@@ -12,19 +12,32 @@
     />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-   
+
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="../../2100 - Front End/2140 - JavaScript/Floor1.js"></script>
+
     <title>GUI</title>
 
   </head>
   <body>
+    <form method="post" action="../../2200 - Back End/Authentication/update.php">
     <h1>Elevator Control</h1>
     <h2>Developed by 2G</h2>
-    <fieldset>
-      <p><input type="submit" value="Floor 3" /></p>
-      <p><input type="submit" value="Floor 2" /></p>
-      <p><input type="submit" value="Floor 1" /></p>
-    </fieldset>
+      
+    <p><input type="submit" name="action" value="Floor 3" /></p>
+    <p><input type="submit" name="action" value="Floor 2" /></p>
+    <p><input type="submit" name="action" value="Floor 1" /></p>
 
-    <input type="submit" value="Dev" />
+    <!-- not working atm
+    <p><input type="submit" name="action" value="Floor 3" onclick="PlayFloor3()"/></p>
+    <p><input type="submit" name="action" value="Floor 2" onclick="PlayFloor2()"/></p>
+    <p><input type="submit" name="action" value="Floor 1" onclick="PlayFloor1()"/></p>
+    -->
+     
+      <div id="my_dataviz"></div>
+
+    <input type="submit" name="action" value="Dev" />
+    <input type="submit" name="action" value="Sabbath" />
+    </form>
   </body>
 </html>

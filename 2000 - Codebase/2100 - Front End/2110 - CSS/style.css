@@ -8,6 +8,10 @@ h1,h2,h3,li,ul,figcaption,ol,thead,tbody,tfoot,tr,th {
     color: #362b1b;
 }
 
+#control-container {
+    padding: 0px !important;
+}
+
 .center {
     display: block;
     margin-left: auto;

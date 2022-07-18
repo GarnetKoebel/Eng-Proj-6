@@ -1,28 +1,31 @@
-<?php
-session_start();
-$authenticate = False;
+<?php 
+    // Authenticate.php
+    session_start();
+    $username = $_POST['user'];
+    $password = $_POST['pass'];
+    $authenticated = FALSE;
 
-    // Read the JSON file 
-    $au_json = file_get_contents('authorizedUsers.json');
-  
-    // Decode the JSON file
-    $json_data = json_decode($au_json, true);
-    $i = 0;
-    foreach($json_data as $key => $value) {
-        if($json_data[$i]['username'] === $_POST['user'] || $json_data[$i]['email'] === $_POST['user'] && $json_data[$i]["password"] === $_POST['pass']){
-            $_SESSION['username'] = $json_data[$i]['username'];  
-            require "../../2100 - Front End/2130 - HTML/headerlogin.html";
-            echo "<p>Congrats, you a logged in</p>"; 
-            echo "<p>Welcome, " . $_SESSION['username'] . "</p>";
-            echo "<p>Click <a href='../../2100 - Front End/2150 - PHP/member.php'> here </a> to go to the members only page</p>";
-            $authenticate = true;
-            
+    $db = new PDO('mysql:host=127.0.0.1;dbname=elevator', 'giordan', '');
+    $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+    // Authenticate against the database
+    $query = "SELECT * FROM authorizedusers WHERE username = '$username' AND password = '$password'";
+    $rows = $db->query($query);
+    foreach ($rows as $row) {
+        echo $row['username'];
+        if($username === $row['username'] && $password === $row['password']) {
+            $authenticated = TRUE;
         }
-        $i++;
     }
-    if($authenticate == false){
+
+    if($authenticated) {
+        require "../../2100 - Front End/2130 - HTML/headerlogin.html";
+        $_SESSION['username'] = $username; 
+        $_SESSION['password'] = $password;  
+        echo "<p>Congrats, you a logged in</p>"; 
+        echo "<p>Click <a href='../../2100 - Front End/2130 - PHP/member.php'> here </a> to go to the members only page</p>";
+    } else {
         require "../../2100 - Front End/2130 - HTML/header.html";
         echo "<p>You are not authenticated!!!!</p>"; 
     }
-   
-?>
+    echo "<p>Copyright &copy Giordan Pellegrino & Garnet Koebel</p>";
