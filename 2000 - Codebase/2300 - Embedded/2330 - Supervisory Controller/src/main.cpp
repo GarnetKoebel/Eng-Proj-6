@@ -1,4 +1,4 @@
-#include "../include/CAN.h"
+#include "../include/Supervisor.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,8 +8,13 @@
 using namespace std;
 
 int main() {
+	printf("G2 Elevator Supervisor\nV0.3\nBooted\n\n");
 	while(1) {
-		processCANMsg();
+		receiveMsg(); // wait for next message
+		// if (newCommand == 1){ // new command received since last loop?
+		// 	deDuplicateCommandQueue();
+		// }
+		processMsg(); // process highest priority command
 		
 	}
 	return 0;

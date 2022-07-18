@@ -12,8 +12,11 @@
 
 #ifndef CAN_H
 #define CAN_H
+#include <libpcan.h>
 
 // Function declarations
-int processCANMsg(void);
+TPCANMsg pcanRx(void);
+int pcanTx(int id, int data);
+
 
 #endif

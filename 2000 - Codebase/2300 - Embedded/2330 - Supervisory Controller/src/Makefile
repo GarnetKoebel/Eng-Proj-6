@@ -6,14 +6,14 @@ ODIR=obj
 
 LIBS=-l:libmysqlcppconn.so -lpcan
 
-_OBJ = main.o CAN.o
+_OBJ = main.o CAN.o Supervisor.o linkedList.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.cpp
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -g -c -o $@ $< $(CFLAGS)
 
 main: $(OBJ)
-	g++ -o $@ $^ $(CFLAGS) $(LDIR) $(LIBS)
+	g++ -g -o $@ $^ $(CFLAGS) $(LDIR) $(LIBS)
 
 .PHONY: clean
 
