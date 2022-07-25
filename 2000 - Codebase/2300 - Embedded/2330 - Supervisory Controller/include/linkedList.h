@@ -56,4 +56,5 @@ int addElement(int intID, void* data, linkedList** targetList, int targetIndex, 
 int removeElement(linkedList** targetList, int targetIndex);
 int replaceElement(int intID, void* dataStruct, linkedList** targetList, int targetIndex);
 int getElementPosById(linkedList* targetList, int targetID);
+int removeAllById(linkedList* targetList, int targetID);
 #endif

@@ -58,6 +58,9 @@ linkedList* findFirstByID(linkedList* targetList, int targetID) {
 	 *							error. Returns pointer to currentElement on successful run.
 	 *
 	*/
+        if (targetList == NULL) {
+         return NULL;
+        }
 	linkedList* currentElement = targetList;
 	while (currentElement->next != NULL) {
 		if (currentElement->dataInt == targetID) {
@@ -198,7 +201,7 @@ int addElement(int intId, void* data, linkedList** targetList, int targetIndex, 
 	linkedList* currentElement = *targetList;
 	linkedList* tempElement = (linkedList*)malloc(sizeof(linkedList)+size);
 	tempElement->dataStruct = data;
-	//tempElement->dataInt = intID;
+	tempElement->dataInt = intId;
 	//strcpy(tempElement->dataName, stringData);
 	if (*targetList == NULL) {  //if the list is empty, just add the element directly regardless of the targetIndex
 		tempElement->next = NULL;
@@ -368,17 +371,39 @@ int getElementPosById(linkedList* targetList, int targetID) {
 	linkedList* currentElement = targetList;
 	while (currentElement->next != NULL) {
 		if (currentElement->dataInt == targetID) {
-			removeElement(targetList, index);
+			//removeElement(targetList, index);
 			return index;
 		}
 		index++;
 		currentElement = currentElement->next;
 	}
 	if (currentElement->dataInt == targetID) {
-		removeElement(targetList, index);
+		//removeElement(targetList, index);
 		return index;
 	}
 	else { //return error
 		return -1; // NOTE: this will cause the tail to be removed if not properly handled (if this was passed to removeElement())
 	}
+}
+
+int removeAllById(linkedList* targetList, int targetID) {
+	int index = 0; // track index position in list
+	linkedList* currentElement = targetList;
+	if (targetList == NULL || currentElement == NULL || currentElement == 0x0) {
+            return -1; // return error code
+        }
+        while (currentElement->next != NULL) {
+		if (currentElement->dataInt == targetID) {
+			removeElement(&targetList, index);
+		}
+		index++;
+		currentElement = currentElement->next;
+	}
+	if (currentElement->dataInt == targetID) {
+		removeElement(&targetList, index);
+	}
+	else { //return error
+		return 0;
+	}
+	
 }
