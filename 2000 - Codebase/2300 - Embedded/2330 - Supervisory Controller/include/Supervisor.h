@@ -3,7 +3,10 @@
 
 int deDuplicateCommandQueue(void);
 int receiveMsg(void);
-int processMsg(void);
+void stateMachine(void);
+int nextCommand();
+int executeCommand(int cmd);
+//int processMsg(void);
 
 
 #endif
