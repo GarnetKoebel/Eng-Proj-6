@@ -294,7 +294,7 @@ int nextCommand() { // looks at state machine state and spits out the next valid
         case FLOOR1_IDLE:
             // Grab first command, remove all floor 1 requests
             nextCommand = 0;
-            removeAllById(commandQueue, FLOOR1_CALL);
+            //removeAllById // Replace Later(commandQueue, FLOOR1_CALL);
             nextCommand = cmdType;
             //if ((tmp = findByIndex(commandQueue, 0)) == NULL) {
               //  nextCommand = -1;
@@ -304,7 +304,7 @@ int nextCommand() { // looks at state machine state and spits out the next valid
         case FLOOR2_IDLE:
             // Grab first command, remove all floor 2 requests
             nextCommand = 0;
-            removeAllById(commandQueue, FLOOR2_CALL);
+            //removeAllById // Replace Later(commandQueue, FLOOR2_CALL);
             nextCommand = cmdType;
             //if ((tmp = findByIndex(commandQueue, 0)) == NULL) {
               //  nextCommand = -1;
@@ -314,7 +314,7 @@ int nextCommand() { // looks at state machine state and spits out the next valid
         case FLOOR3_IDLE:
             // Grab first command, remove all floor 3 requests
             nextCommand = 0;
-            removeAllById(commandQueue, FLOOR3_CALL);
+            //removeAllById // Replace Later(commandQueue, FLOOR3_CALL);
             nextCommand = cmdType;
             //if ((tmp = findByIndex(commandQueue, 0)) == NULL) {
               //  nextCommand = -1;
@@ -323,7 +323,7 @@ int nextCommand() { // looks at state machine state and spits out the next valid
         break;
         case UP_TO_F3:
             // Look for command going to floor two (if didn't start at floor 2), remove all floor 3 requests
-            removeAllById(commandQueue, FLOOR3_CALL);
+            //removeAllById // Replace Later(commandQueue, FLOOR3_CALL);
             if (prevCommand != FLOOR2_CALL) {
                if ((tmp = findFirstByID(commandQueue, FLOOR3_CALL)) != NULL) {
                    nextCommand = tmp->dataInt;
@@ -333,7 +333,7 @@ int nextCommand() { // looks at state machine state and spits out the next valid
         break;
         case UP_TO_F2:
             // Look for command going to floor three, remove all floor 2 requests
-            removeAllById(commandQueue, FLOOR2_CALL);
+            //removeAllById // Replace Later(commandQueue, FLOOR2_CALL);
             if ((tmp = findFirstByID(commandQueue, FLOOR3_CALL)) != NULL) {
                    nextCommand = tmp->dataInt;
             }
@@ -341,7 +341,7 @@ int nextCommand() { // looks at state machine state and spits out the next valid
         break;
         case DOWN_TO_F2:
             // Look for command going to floor one, remove all floor 2 requests
-            removeAllById(commandQueue, FLOOR2_CALL);
+            //removeAllById // Replace Later(commandQueue, FLOOR2_CALL);
             if ((tmp = findFirstByID(commandQueue, FLOOR1_CALL)) != NULL) {
                    nextCommand = tmp->dataInt;
             }
@@ -349,7 +349,7 @@ int nextCommand() { // looks at state machine state and spits out the next valid
         break;
         case DOWN_TO_F1:
             // Look for command going to floor two (if started at floor 3), remove all floor 1 requests
-            removeAllById(commandQueue, FLOOR1_CALL);
+            //removeAllById // Replace Later(commandQueue, FLOOR1_CALL);
             if (prevCommand == FLOOR3_CALL) {
                if ((tmp = findFirstByID(commandQueue, FLOOR2_CALL)) != NULL) {
                    nextCommand = tmp->dataInt;
@@ -359,14 +359,14 @@ int nextCommand() { // looks at state machine state and spits out the next valid
         break;
         case UP_F2_THEN_F3:
             // Look for command going to floor 1, remove all floor 2 and 3 requests
-            removeAllById(commandQueue, FLOOR2_CALL);
-            removeAllById(commandQueue, FLOOR3_CALL);
+            //removeAllById // Replace Later(commandQueue, FLOOR2_CALL);
+            //removeAllById // Replace Later(commandQueue, FLOOR3_CALL);
             nextCommand = findFirstByID(commandQueue, FLOOR1_CALL)->dataInt;
         break;
         case DOWN_F2_THEN_F1:
             // Look for command going to floor three, remove all floor 2 and 1 requests
-            removeAllById(commandQueue, FLOOR2_CALL);
-            removeAllById(commandQueue, FLOOR1_CALL);
+            //removeAllById // Replace Later(commandQueue, FLOOR2_CALL);
+            //removeAllById // Replace Later(commandQueue, FLOOR1_CALL);
             nextCommand = findFirstByID(commandQueue, FLOOR3_CALL)->dataInt;
         break;
         default:
