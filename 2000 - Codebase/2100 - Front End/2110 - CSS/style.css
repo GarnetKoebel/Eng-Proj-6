@@ -2,7 +2,7 @@ body {
     background-color: #a4a4ac;
 }
 
-h1,h2,h3,li,ul,figcaption,ol,thead,tbody,tfoot,tr,th {
+h1,h2,h3,li,ul,figcaption,ol,thead,tbody,tfoot,table {
     text-align: center;
     list-style-position: inside;
     color: #362b1b;
