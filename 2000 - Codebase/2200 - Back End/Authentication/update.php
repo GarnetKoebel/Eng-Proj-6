@@ -1,77 +1,63 @@
 <?php 
 
-function update_elevatorNetwork(int $node_ID, int $new_status) : void {
-    $db = new PDO(
-        'mysql:host=127.0.0.1;dbname=elevator',
-        'ese',
-        'ese'
-    );
+function update_elevatorNetwork(int $node_ID, int $new_status) {
+    $db = new PDO('mysql:host=127.0.0.1;dbname=elevator', 'ese', 'ese');
     $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-
-    $query = 'UPDATE elevatorNetwork SET State = :stat WHERE nodeID = :id' ;
+    $query = 'UPDATE elevatornetwork SET State = :stat, date = current_date, time = current_time WHERE nodeID = :id';
     $statement = $db->prepare($query); 
     $statement->bindValue('stat', $new_status); 
     $statement->bindValue('id', $node_ID); 
     $statement->execute();                      // Execute prepared statement
+    return 0; 
+}
+
+function display(){
+    $servername = "localhost";
+    $username = "ese";
+    $password = "ese";
+    $dbname = "elevator";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    $sql = "SELECT * FROM elevatornetwork";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+    // output data of each row
+        while($row = $result->fetch_assoc()) {
+            echo "<p>Date: " . $row["date"]. " - Time: " . $row["time"]. " - State: " . $row["State"]. " - nodeID: " . $row["nodeID"]. " - currentFloor: " . $row["currentFloor"]. " - F1Reached: " . $row["F1Reached"]. " - F2Reached: " . $row["F2Reached"]. " - F3Reached: " . $row["F3Reached"]."<p><br>";
+        }
+    } else {
+        echo "0 results";
+    }
+    $conn->close();
+
 }
 
 session_start();
+
 if(isset($_SESSION['username'])) {
     require "../../2100 - Front End/2130 - HTML/headerlogin.html";
     require "../../2100 - Front End/2130 - HTML/GUI.html";
 
-    $db = new PDO(
-        'mysql:host=127.0.0.1;dbname=elevator',
-        'ese',
-        'ese'
-    );
-    $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-
     if ($_POST['action'] == "Floor 3") {
-        update_elevatorNetwork(4, 3);
-        echo "<script>
-
-        var audio = new Audio('../../2100 - Front End/2170 - Videos/Floor3.mp3');
-        audio.play();
-
-        </script>";
+        update_elevatorNetwork(1, 3);
 
     } else if ($_POST['action'] == "Floor 2") {
-        update_elevatorNetwork(4, 2);
-        echo "<script>
-
-        var audio = new Audio('../../2100 - Front End/2170 - Videos/Floor2.mp3');
-        audio.play();
-
-        </script>";
+        update_elevatorNetwork(1, 2);
 
     } else if ($_POST['action'] == "Floor 1") {
-        update_elevatorNetwork(4, 1);
-        echo "<script>
+        update_elevatorNetwork(1, 1);
 
-        var audio = new Audio('../../2100 - Front End/2170 - Videos/Floor1.mp3');
-        audio.play();
-
-        </script>";
-
-    } else if ($_POST['action'] == "Dev") {
-        $query = 'SELECT currentFloor, F1Reached, F2Reached, F3Reached FROM elevatorNetwork'; 
-        $rows = $db->query($query);
-        foreach ($rows as $row) {
-            echo "<p> Current floor is:" . $row['currentFloor'] . " </p>";
-            echo "<p> Floor 1 reached:" . $row['F1Reached'] . " Times</p>";
-            echo "<p> Floor 2 reached:" . $row['F2Reached'] . " Times</p>";
-            echo "<p> Floor 3 reached:" . $row['F3Reached'] . " Times</p>";
-        }
-    } else if ($_POST['action'] == "Sabbith") {
-        update_elevatorNetwork(4, 1);
-        sleep(10);
-        update_elevatorNetwork(4, 2);
-        sleep(10);
-        update_elevatorNetwork(4, 3);
+    } else if ($_POST['action'] == "Sabbath") {
+     
+    } else if ($_POST['action'] == "Update") {
+        
     } else {
-        //invalid action!
+        echo "Invalid";
     }
+    display();     
     echo "<p>Current User: " . $_SESSION['username'] . "</p>";
 
 } else {

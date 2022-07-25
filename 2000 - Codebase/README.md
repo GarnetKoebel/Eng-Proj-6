@@ -1,1 +1,0 @@
-This folder contains the codebase for the project (e.g. webpages, mobile app, embedded code)

@@ -23,7 +23,7 @@
         $_SESSION['username'] = $username; 
         $_SESSION['password'] = $password;  
         echo "<p>Congrats, you a logged in</p>"; 
-        echo "<p>Click <a href='../../2100 - Front End/2130 - PHP/member.php'> here </a> to go to the members only page</p>";
+        echo "<p>Click <a href='../../2100 - Front End/2150 - PHP/member.php'> here </a> to go to the members only page</p>";
     } else {
         require "../../2100 - Front End/2130 - HTML/header.html";
         echo "<p>You are not authenticated!!!!</p>"; 

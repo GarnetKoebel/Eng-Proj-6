@@ -18,3 +18,10 @@ function PlayFloor3() {
     audio.play();
 
 }
+
+/*
+echo "<script>
+    var audio = new Audio('../../2100 - Front End/2170 - Videos/Floor3.mp3');
+    audio.play();
+    </script>""
+*/
