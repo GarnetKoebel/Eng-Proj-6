@@ -81,18 +81,19 @@ enum currentFloorEnum currentFloor;
 // 	ASCENDING 	// Going up
 // };
 
-enum carStateEnum { // Supervisor makes decisions based on car state
-	STOP,		// Initial state / e-stop state
-	FLOOR1_IDLE,		// Arrives at floor 1 no queued commands
-	FLOOR2_IDLE,		// Arrives at floor 2 no queued commands
-	FLOOR3_IDLE,  	// Arrives at floor 3 no queued commands
-	UP_TO_F3,	
-	UP_TO_F2,
+enum carStateEnum
+{                // Supervisor makes decisions based on car state
+    STOP,        // Initial state / e-stop state
+    FLOOR1_IDLE, // Arrives at floor 1 no queued commands
+    FLOOR2_IDLE, // Arrives at floor 2 no queued commands
+    FLOOR3_IDLE, // Arrives at floor 3 no queued commands
+    UP_TO_F3,
+    UP_TO_F2,
     DOWN_TO_F2,
     DOWN_TO_F1,
-    UP_F2_THEN_F3, // go to floor 2 then floor 3
+    UP_F2_THEN_F3,  // go to floor 2 then floor 3
     DOWN_F2_THEN_F1 // go to floor 2 then floor 1
-};	
+};
 enum carStateEnum carState;
 enum carStateEnum prevCarState;
 
@@ -112,10 +113,10 @@ enum msgTypeEnum
 enum msgTypeEnum cmdType;
 
 int commandComplete = 1; // determines if next command should be run
-int destFloor = 0; // tracks where car should be before next command
-int newCommand = 0; // flag tracking if a new message has arrived
+int destFloor = 0;       // tracks where car should be before next command
+int newCommand = 0;      // flag tracking if a new message has arrived
 int queueLen = 0;
-linkedList* commandQueue = (linkedList*)malloc(sizeof(linkedList)+sizeof(TPCANMsg)); // create empty list
+linkedList *commandQueue = (linkedList *)malloc(sizeof(linkedList) + sizeof(TPCANMsg)); // create empty list
 
 int deDuplicateCommandQueue(void)
 {
@@ -154,95 +155,107 @@ int receiveMsg(void)
     unsigned char msgData = RxMsg.DATA[0];
     static char ecBaseStr[] = "EC Status:";
 
-    if (msgId == EC_ID && msgData == EC_STATUS_DEEN && RxMsg.LEN != 0x04) {
+    if (msgId == EC_ID && msgData == EC_STATUS_DEEN && RxMsg.LEN != 0x04)
+    {
         cmdType = EC_DEEN;
         newCommand = 1;
-
-	} else if (msgId == EC_ID && msgData == EC_STATUS_EN && RxMsg.LEN != 0x04) {
+    }
+    else if (msgId == EC_ID && msgData == EC_STATUS_EN && RxMsg.LEN != 0x04)
+    {
         cmdType = EC_EN;
         newCommand = 1;
-
-	} else if (msgId == EC_ID && msgData == EC_POS_MOV && RxMsg.LEN != 0x04) {
+    }
+    else if (msgId == EC_ID && msgData == EC_POS_MOV && RxMsg.LEN != 0x04)
+    {
         currentFloor = MOV;
         printf("%s Moving\n", ecBaseStr);
         return 0;
-
-	}  else if ((msgId == EC_ID && msgData == EC_POS_1 && RxMsg.LEN != 0x04) && (temp == currentFloor || currentFloor == 0)) { // Elevator at floor 1 
+    }
+    else if ((msgId == EC_ID && msgData == EC_POS_1 && RxMsg.LEN != 0x04) && (temp == currentFloor || currentFloor == 0))
+    { // Elevator at floor 1
+        db_setFloorNum(1);
         if (currentFloor != F1)
         {
-            db_setFloorNum(1);
             db_incrementFloor1();
         }
         currentFloor = F1;
         printf("%s Floor 1\n", ecBaseStr);
         return 0;
-
-	} else if ((msgId == EC_ID && msgData == EC_POS_2 && RxMsg.LEN != 0x04) && (temp == currentFloor || currentFloor == 0)) { // Elevator at floor 2
+    }
+    else if ((msgId == EC_ID && msgData == EC_POS_2 && RxMsg.LEN != 0x04) && (temp == currentFloor || currentFloor == 0))
+    { // Elevator at floor 2
+        db_setFloorNum(2);
         if (currentFloor != F2)
         {
-            db_setFloorNum(2);
             db_incrementFloor2();
         }
         currentFloor = F2;
         printf("%s Floor 2\n", ecBaseStr);
         return 0;
-
-	} else if  else if ((msgId == EC_ID && msgData == EC_POS_3 && RxMsg.LEN != 0x04) && (temp == currentFloor || currentFloor == 0)) { // Elevator at floor 3
-   
+    }
+    else if ((msgId == EC_ID && msgData == EC_POS_3 && RxMsg.LEN != 0x04) && (temp == currentFloor || currentFloor == 0))
+    { // Elevator at floor 3
+        db_setFloorNum(3);
         if (currentFloor != F3)
         {
-            db_setFloorNum(3);
             db_incrementFloor3();
         }
         currentFloor = F3;
         printf("%s Floor 3\n", ecBaseStr);
         return 0;
-
-	} else if (msgId == CC_ID && msgData == CC_FLOOR_REQ_1 && RxMsg.LEN != 0x04) {
-		cmdType = FLOOR1_CALL;
-                newCommand = 1;
-
-	} else if (msgId == CC_ID && msgData == CC_FLOOR_REQ_2 && RxMsg.LEN != 0x04) {
-        cmdType = FLOOR2_CALL;
-        newCommand = 1;
-
-	} else if (msgId == CC_ID && msgData == CC_FLOOR_REQ_3 && RxMsg.LEN != 0x04) {
-        cmdType = FLOOR3_CALL;
-        newCommand = 1;
-	} else if (msgId == FC1_ID && msgData == FC_FLOOR_REQ && RxMsg.LEN != 0x04) {
+    }
+    else if (msgId == CC_ID && msgData == CC_FLOOR_REQ_1 && RxMsg.LEN != 0x04)
+    {
         cmdType = FLOOR1_CALL;
         newCommand = 1;
-	} else if (msgId == FC2_ID && msgData == FC_FLOOR_REQ && RxMsg.LEN != 0x04) {
+    }
+    else if (msgId == CC_ID && msgData == CC_FLOOR_REQ_2 && RxMsg.LEN != 0x04)
+    {
         cmdType = FLOOR2_CALL;
-	printf("F2 CALL\n CMDTyp: %d\n", cmdType);
         newCommand = 1;
-	} else if (msgId == FC3_ID && msgData == FC_FLOOR_REQ && RxMsg.LEN != 0x04) {
+    }
+    else if (msgId == CC_ID && msgData == CC_FLOOR_REQ_3 && RxMsg.LEN != 0x04)
+    {
         cmdType = FLOOR3_CALL;
         newCommand = 1;
-	}
-    
-    if(addElement((int)cmdType, &RxMsg, &commandQueue, 0, sizeof(TPCANMsg) + sizeof(linkedList)) == 0 && newCommand == 1) { // always add to head since command execution will determine order of execution
-    //    printf("added type: %d", cmdType);
-	//printAllElements(commandQueue);
-//	newCommand = 0; // set new command flag
+    }
+    else if (msgId == FC1_ID && msgData == FC_FLOOR_REQ && RxMsg.LEN != 0x04)
+    {
+        cmdType = FLOOR1_CALL;
+        newCommand = 1;
+    }
+    else if (msgId == FC2_ID && msgData == FC_FLOOR_REQ && RxMsg.LEN != 0x04)
+    {
+        cmdType = FLOOR2_CALL;
+        printf("F2 CALL\n CMDTyp: %d\n", cmdType);
+        newCommand = 1;
+    }
+    else if (msgId == FC3_ID && msgData == FC_FLOOR_REQ && RxMsg.LEN != 0x04)
+    {
+        cmdType = FLOOR3_CALL;
+        newCommand = 1;
+    }
     else if (temp == 1 && currentFloor != 0)
     {
         cmdType = FLOOR1_CALL;
         newCommand = 1;
-        printf("fc1 temp: %d\n", temp);
     }
     else if (temp == 2 && currentFloor != 0)
     {
         cmdType = FLOOR2_CALL;
         newCommand = 1;
-        printf("fc2 temp: %d\n", temp);
     }
     else if (temp == 3 && currentFloor != 0)
     {
         cmdType = FLOOR3_CALL;
         newCommand = 1;
-        printf("fc3 temp: %d\n", temp);
     }
+
+    if (addElement((int)cmdType, &RxMsg, &commandQueue, 0, sizeof(TPCANMsg) + sizeof(linkedList)) == 0 && newCommand == 1)
+    { // always add to head since command execution will determine order of execution
+        //    printf("added type: %d", cmdType);
+        // printAllElements(commandQueue);
+        //	newCommand = 0; // set new command flag
         return 0;
     }
     else
@@ -253,95 +266,119 @@ int receiveMsg(void)
     temp = 0;
 }
 
-void stateMachine() { // if last command has b
+void stateMachine()
+{ // if last command has b
     prevCarState = carState;
     printf("State: %d CMDTyp: %d\n", carState, cmdType);
-    switch (carState) { // NOTE: run through each transition state by state for multiple button press cases. Elevator stops at floor two now but forgets it was supposed to go to floor three as well
-        case STOP:
-        if (currentFloor == F1) {
-        carState = FLOOR1_IDLE;
-        } else if (currentFloor == F2) {
-        carState = FLOOR2_IDLE;
-        } else if (currentFloor == F3) {
-        carState = FLOOR3_IDLE;
+    switch (carState)
+    { // NOTE: run through each transition state by state for multiple button press cases. Elevator stops at floor two now but forgets it was supposed to go to floor three as well
+    case STOP:
+        if (currentFloor == F1)
+        {
+            carState = FLOOR1_IDLE;
+        }
+        else if (currentFloor == F2)
+        {
+            carState = FLOOR2_IDLE;
+        }
+        else if (currentFloor == F3)
+        {
+            carState = FLOOR3_IDLE;
         }
         break;
-        case FLOOR1_IDLE:
-            if (cmdType == FLOOR2_CALL) {
-                carState = UP_TO_F2;
-
-            } else if (cmdType == FLOOR3_CALL) {
-                carState = UP_TO_F3;
-
-            }
+    case FLOOR1_IDLE:
+        if (cmdType == FLOOR2_CALL)
+        {
+            carState = UP_TO_F2;
+        }
+        else if (cmdType == FLOOR3_CALL)
+        {
+            carState = UP_TO_F3;
+        }
         break;
-        case FLOOR2_IDLE:
-            if (cmdType == FLOOR1_CALL) {
-                carState = DOWN_TO_F1;
-
-            } else if (cmdType == FLOOR3_CALL) {
-                carState = UP_TO_F3;
-
-            }
+    case FLOOR2_IDLE:
+        if (cmdType == FLOOR1_CALL)
+        {
+            carState = DOWN_TO_F1;
+        }
+        else if (cmdType == FLOOR3_CALL)
+        {
+            carState = UP_TO_F3;
+        }
         break;
-        case FLOOR3_IDLE:
-            if (cmdType == FLOOR2_CALL) {
-                carState = DOWN_TO_F2;
-
-            } else if (cmdType == FLOOR1_CALL) {
-                carState = DOWN_TO_F1;
-
-            }
+    case FLOOR3_IDLE:
+        if (cmdType == FLOOR2_CALL)
+        {
+            carState = DOWN_TO_F2;
+        }
+        else if (cmdType == FLOOR1_CALL)
+        {
+            carState = DOWN_TO_F1;
+        }
         break;
-        case UP_TO_F3:
-            if (cmdType == FLOOR2_CALL) {
-                carState = UP_F2_THEN_F3;
-
-            } else if (currentFloor == F3) {
-                carState = FLOOR3_IDLE;
-            }
+    case UP_TO_F3:
+        if (cmdType == FLOOR2_CALL)
+        {
+            carState = UP_F2_THEN_F3;
+        }
+        else if (currentFloor == F3)
+        {
+            carState = FLOOR3_IDLE;
+        }
         break;
-        case UP_TO_F2:
-            if (cmdType == FLOOR3_CALL) {
-                carState = UP_F2_THEN_F3;
-            } else if (currentFloor == F2) {
-                carState = FLOOR2_IDLE;
-            }
+    case UP_TO_F2:
+        if (cmdType == FLOOR3_CALL)
+        {
+            carState = UP_F2_THEN_F3;
+        }
+        else if (currentFloor == F2)
+        {
+            carState = FLOOR2_IDLE;
+        }
         break;
-        case DOWN_TO_F2:
-            if (cmdType == FLOOR1_CALL) {
-                carState = DOWN_F2_THEN_F1;
-            } else if (currentFloor == F2) {
-                carState = FLOOR2_IDLE;
-            }
+    case DOWN_TO_F2:
+        if (cmdType == FLOOR1_CALL)
+        {
+            carState = DOWN_F2_THEN_F1;
+        }
+        else if (currentFloor == F2)
+        {
+            carState = FLOOR2_IDLE;
+        }
         break;
-        case DOWN_TO_F1:
-            if (cmdType == FLOOR2_CALL) {
-                carState = DOWN_F2_THEN_F1;
-            } else if (currentFloor == F1) {
-                carState = FLOOR1_IDLE;
-            }
+    case DOWN_TO_F1:
+        if (cmdType == FLOOR2_CALL)
+        {
+            carState = DOWN_F2_THEN_F1;
+        }
+        else if (currentFloor == F1)
+        {
+            carState = FLOOR1_IDLE;
+        }
         break;
-        case UP_F2_THEN_F3:
-            if (currentFloor == F2) { // send to floor 3
-
-            } else if (currentFloor == F3) {
-                carState = FLOOR3_IDLE;
-            }
+    case UP_F2_THEN_F3:
+        if (currentFloor == F2)
+        { // send to floor 3
+        }
+        else if (currentFloor == F3)
+        {
+            carState = FLOOR3_IDLE;
+        }
         break;
-        case DOWN_F2_THEN_F1:
-            if (currentFloor == F2) {
-
-            } else if (currentFloor == F1) {
-                carState = FLOOR1_IDLE;
-            }
+    case DOWN_F2_THEN_F1:
+        if (currentFloor == F2)
+        {
+        }
+        else if (currentFloor == F1)
+        {
+            carState = FLOOR1_IDLE;
+        }
         break;
     }
-
-
 }
 
-int nextCommand() { // looks at state machine state and spits out the next valid command from the linked list
+int nextCommand()
+{ // looks at state machine state and spits out the next valid command from the linked list
     /* Theory of Operation
         1. look at state machine state
         2. scan commandQueue for command valid for current state
@@ -351,144 +388,156 @@ int nextCommand() { // looks at state machine state and spits out the next valid
 
     */
 
-   // Memory of recent commands
-   static int prevCommand = 0;
-   static int nextCommand = 0;
-   linkedList* tmp;
+    // Memory of recent commands
+    static int prevCommand = 0;
+    static int nextCommand = 0;
+    linkedList *tmp;
 
-   prevCommand = nextCommand;
+    prevCommand = nextCommand;
 
-   switch (carState) {
-        case STOP:
-            // Do Nothing
+    switch (carState)
+    {
+    case STOP:
+        // Do Nothing
         break;
-        case FLOOR1_IDLE:
-            // Grab first command, remove all floor 1 requests
-            nextCommand = 0;
-            //removeAllById // Replace Later(commandQueue, FLOOR1_CALL);
-            nextCommand = cmdType;
-            //if ((tmp = findByIndex(commandQueue, 0)) == NULL) {
-              //  nextCommand = -1;
-            //}
-            //nextCommand = findByIndex(commandQueue, 0)->dataInt;
+    case FLOOR1_IDLE:
+        // Grab first command, remove all floor 1 requests
+        nextCommand = 0;
+        // removeAllById // Replace Later(commandQueue, FLOOR1_CALL);
+        nextCommand = cmdType;
+        // if ((tmp = findByIndex(commandQueue, 0)) == NULL) {
+        //   nextCommand = -1;
+        //}
+        // nextCommand = findByIndex(commandQueue, 0)->dataInt;
         break;
-        case FLOOR2_IDLE:
-            // Grab first command, remove all floor 2 requests
-            nextCommand = 0;
-            //removeAllById // Replace Later(commandQueue, FLOOR2_CALL);
-            nextCommand = cmdType;
-            //if ((tmp = findByIndex(commandQueue, 0)) == NULL) {
-              //  nextCommand = -1;
-           // }
-            //nextCommand = findByIndex(commandQueue, 0)->dataInt;
+    case FLOOR2_IDLE:
+        // Grab first command, remove all floor 2 requests
+        nextCommand = 0;
+        // removeAllById // Replace Later(commandQueue, FLOOR2_CALL);
+        nextCommand = cmdType;
+        // if ((tmp = findByIndex(commandQueue, 0)) == NULL) {
+        //   nextCommand = -1;
+        // }
+        // nextCommand = findByIndex(commandQueue, 0)->dataInt;
         break;
-        case FLOOR3_IDLE:
-            // Grab first command, remove all floor 3 requests
-            nextCommand = 0;
-            //removeAllById // Replace Later(commandQueue, FLOOR3_CALL);
-            nextCommand = cmdType;
-            //if ((tmp = findByIndex(commandQueue, 0)) == NULL) {
-              //  nextCommand = -1;
-            //}
-            //nextCommand = findByIndex(commandQueue, 0)->dataInt;
+    case FLOOR3_IDLE:
+        // Grab first command, remove all floor 3 requests
+        nextCommand = 0;
+        // removeAllById // Replace Later(commandQueue, FLOOR3_CALL);
+        nextCommand = cmdType;
+        // if ((tmp = findByIndex(commandQueue, 0)) == NULL) {
+        //   nextCommand = -1;
+        //}
+        // nextCommand = findByIndex(commandQueue, 0)->dataInt;
         break;
-        case UP_TO_F3:
-            // Look for command going to floor two (if didn't start at floor 2), remove all floor 3 requests
-            //removeAllById // Replace Later(commandQueue, FLOOR3_CALL);
-            if (prevCommand != FLOOR2_CALL) {
-               if ((tmp = findFirstByID(commandQueue, FLOOR3_CALL)) != NULL) {
-                   nextCommand = tmp->dataInt;
-               }
-               //nextCommand = findFirstByID(commandQueue, FLOOR3_CALL)->dataInt;
+    case UP_TO_F3:
+        // Look for command going to floor two (if didn't start at floor 2), remove all floor 3 requests
+        // removeAllById // Replace Later(commandQueue, FLOOR3_CALL);
+        if (prevCommand != FLOOR2_CALL)
+        {
+            if ((tmp = findFirstByID(commandQueue, FLOOR3_CALL)) != NULL)
+            {
+                nextCommand = tmp->dataInt;
             }
+            // nextCommand = findFirstByID(commandQueue, FLOOR3_CALL)->dataInt;
+        }
         break;
-        case UP_TO_F2:
-            // Look for command going to floor three, remove all floor 2 requests
-            //removeAllById // Replace Later(commandQueue, FLOOR2_CALL);
-            if ((tmp = findFirstByID(commandQueue, FLOOR3_CALL)) != NULL) {
-                   nextCommand = tmp->dataInt;
+    case UP_TO_F2:
+        // Look for command going to floor three, remove all floor 2 requests
+        // removeAllById // Replace Later(commandQueue, FLOOR2_CALL);
+        if ((tmp = findFirstByID(commandQueue, FLOOR3_CALL)) != NULL)
+        {
+            nextCommand = tmp->dataInt;
+        }
+        // nextCommand = findFirstByID(commandQueue, FLOOR3_CALL)->dataInt;
+        break;
+    case DOWN_TO_F2:
+        // Look for command going to floor one, remove all floor 2 requests
+        // removeAllById // Replace Later(commandQueue, FLOOR2_CALL);
+        if ((tmp = findFirstByID(commandQueue, FLOOR1_CALL)) != NULL)
+        {
+            nextCommand = tmp->dataInt;
+        }
+        // nextCommand = findFirstByID(commandQueue, FLOOR1_CALL)->dataInt;
+        break;
+    case DOWN_TO_F1:
+        // Look for command going to floor two (if started at floor 3), remove all floor 1 requests
+        // removeAllById // Replace Later(commandQueue, FLOOR1_CALL);
+        if (prevCommand == FLOOR3_CALL)
+        {
+            if ((tmp = findFirstByID(commandQueue, FLOOR2_CALL)) != NULL)
+            {
+                nextCommand = tmp->dataInt;
             }
-            //nextCommand = findFirstByID(commandQueue, FLOOR3_CALL)->dataInt;
+            // nextCommand = findFirstByID(commandQueue, FLOOR2_CALL)->dataInt;
+        }
         break;
-        case DOWN_TO_F2:
-            // Look for command going to floor one, remove all floor 2 requests
-            //removeAllById // Replace Later(commandQueue, FLOOR2_CALL);
-            if ((tmp = findFirstByID(commandQueue, FLOOR1_CALL)) != NULL) {
-                   nextCommand = tmp->dataInt;
-            }
-            //nextCommand = findFirstByID(commandQueue, FLOOR1_CALL)->dataInt;
+    case UP_F2_THEN_F3:
+        // Look for command going to floor 1, remove all floor 2 and 3 requests
+        // removeAllById // Replace Later(commandQueue, FLOOR2_CALL);
+        // removeAllById // Replace Later(commandQueue, FLOOR3_CALL);
+        nextCommand = findFirstByID(commandQueue, FLOOR1_CALL)->dataInt;
         break;
-        case DOWN_TO_F1:
-            // Look for command going to floor two (if started at floor 3), remove all floor 1 requests
-            //removeAllById // Replace Later(commandQueue, FLOOR1_CALL);
-            if (prevCommand == FLOOR3_CALL) {
-               if ((tmp = findFirstByID(commandQueue, FLOOR2_CALL)) != NULL) {
-                   nextCommand = tmp->dataInt;
-               }
-               //nextCommand = findFirstByID(commandQueue, FLOOR2_CALL)->dataInt;
-            }
+    case DOWN_F2_THEN_F1:
+        // Look for command going to floor three, remove all floor 2 and 1 requests
+        // removeAllById // Replace Later(commandQueue, FLOOR2_CALL);
+        // removeAllById // Replace Later(commandQueue, FLOOR1_CALL);
+        nextCommand = findFirstByID(commandQueue, FLOOR3_CALL)->dataInt;
         break;
-        case UP_F2_THEN_F3:
-            // Look for command going to floor 1, remove all floor 2 and 3 requests
-            //removeAllById // Replace Later(commandQueue, FLOOR2_CALL);
-            //removeAllById // Replace Later(commandQueue, FLOOR3_CALL);
-            nextCommand = findFirstByID(commandQueue, FLOOR1_CALL)->dataInt;
-        break;
-        case DOWN_F2_THEN_F1:
-            // Look for command going to floor three, remove all floor 2 and 1 requests
-            //removeAllById // Replace Later(commandQueue, FLOOR2_CALL);
-            //removeAllById // Replace Later(commandQueue, FLOOR1_CALL);
-            nextCommand = findFirstByID(commandQueue, FLOOR3_CALL)->dataInt;
-        break;
-        default:
-            return -1;
+    default:
+        return -1;
         break;
     }
-    if (nextCommand != -1) { // catch errors from empty lists
+    if (nextCommand != -1)
+    { // catch errors from empty lists
         cmdType = (enum msgTypeEnum)nextCommand;
         return nextCommand;
-    } else {
+    }
+    else
+    {
         return -1;
-   }
+    }
 }
 
-int executeCommand(int cmd) { // execute a command and set the commandServiced flag
+int executeCommand(int cmd)
+{ // execute a command and set the commandServiced flag
     /* Theory of Operation
         1. execute command at input index
         2. set commandServiced flag
         3. remove command from queue
 
     */
-if (newCommand == 1) {
+    if (newCommand == 1)
+    {
 
-   switch(cmd) {
-    case FLOOR1_CALL:
-        printf("F1 SEND\n");
-        pcanTx(SC_ID, SC_FLOOR_REQ_1);
-    break;
-    case FLOOR2_CALL:
-        printf("F2 SEND\n");
-        pcanTx(SC_ID, SC_FLOOR_REQ_2);
-    break;
-    case FLOOR3_CALL:
-        printf("F3 SEND\n");
-        pcanTx(SC_ID, SC_FLOOR_REQ_3);
-    break;
-    default:
-    //    cmdType = STOP;
-        newCommand = 0;
-        return -1;
-    break;
-   }
-}
+        switch (cmd)
+        {
+        case FLOOR1_CALL:
+            printf("F1 SEND\n");
+            pcanTx(SC_ID, SC_FLOOR_REQ_1);
+            break;
+        case FLOOR2_CALL:
+            printf("F2 SEND\n");
+            pcanTx(SC_ID, SC_FLOOR_REQ_2);
+            break;
+        case FLOOR3_CALL:
+            printf("F3 SEND\n");
+            pcanTx(SC_ID, SC_FLOOR_REQ_3);
+            break;
+        default:
+            //    cmdType = STOP;
+            newCommand = 0;
+            return -1;
+            break;
+        }
+    }
     newCommand = 0;
     return 0;
 }
 
-
 // void stateMachine() { // if last command has b //NOTE: Kinda works
 //     prevCarState = carState;
-    
+
 //     switch (carState) { // NOTE: run through each transition state by state for multiple button press cases. Elevator stops at floor two now but forgets it was supposed to go to floor three as well
 //         case STOP:
 //         carState = FLOOR1_IDLE;
@@ -567,7 +616,6 @@ if (newCommand == 1) {
 //         break;
 //     }
 
-
 // }
 
 // static void executeCommand(int cmdType) {
@@ -617,12 +665,12 @@ if (newCommand == 1) {
 
 // int processMsg(void) { // determine command message to execute based on car state.
 // 	/*
-// 	 *	Function Name: 				
-// 	 *	Function Type: 				
-// 	 *	Function Inputs: 			
-// 	 *	Function Outputs: 		
-// 	 *	Error Handling:				
-// 	 *	Function Description:	
+// 	 *	Function Name:
+// 	 *	Function Type:
+// 	 *	Function Inputs:
+// 	 *	Function Outputs:
+// 	 *	Error Handling:
+// 	 *	Function Description:
 // 	 *
 // 	*/
 //     linkedList* tmp = (linkedList*)malloc(sizeof(linkedList)+sizeof(TPCANMsg));
@@ -635,7 +683,7 @@ if (newCommand == 1) {
 //        tmp = findByIndex(commandQueue, 0); // get head of command queue
 //        if (tmp != NULL) {
 //        printf("CMD: %d\n", tmp->dataInt);
-//        executeCommand(tmp->dataInt); // dataInt holds command type 
+//        executeCommand(tmp->dataInt); // dataInt holds command type
 //        removeElement(&commandQueue, 0); // delete head element
 //        }
 //        return 0;
@@ -653,7 +701,7 @@ if (newCommand == 1) {
 
 //         } else if (currentFloor == 2) {
 //             // execute first command with a floor less than current floor
-            
+
 //             tmp = findFirstByID(commandQueue, currentFloor - 1);
 //             if (tmp == NULL) {
 //                 return 0;
@@ -666,7 +714,6 @@ if (newCommand == 1) {
 // 	if (currentFloor == destFloor) {commandComplete = 1;}
 
 //         }
-        
 
 // 	if (cmdType == EC_DEEN) {
 // 		printf("%s Disabled\n", ecBaseStr);
@@ -684,7 +731,7 @@ if (newCommand == 1) {
 
 //         } else if (currentFloor == 2) {
 //             // execute first command with a floor less than current floor
-            
+
 //             tmp = findFirstByID(commandQueue, currentFloor + 1);
 //             if (tmp == NULL) {
 //                 carState = (enum carStateEnum)currentFloor; // no up calls
@@ -712,9 +759,9 @@ if (newCommand == 1) {
 // 	}
 //     // execute command for ascending and descending if/else chains
 //     if (tmp != NULL) {
-//         executeCommand(tmp->dataInt); 
+//         executeCommand(tmp->dataInt);
 //         int pos = getElementPosById(commandQueue, tmp->dataInt); // remove element after command execution
-//         removeElement(&commandQueue, pos); 
+//         removeElement(&commandQueue, pos);
 
 //     }
 //     return 0;
@@ -733,7 +780,7 @@ if (newCommand == 1) {
 // 	// } else if (msgData == EC_ID && msgData == EC_POS_MOV && RxMsg.LEN != 0x04) {
 // 	// 	printf("%s Moving", ecBaseStr);
 
-// 	// } else if (msgData == EC_ID && msgData == EC_POS_1 && RxMsg.LEN != 0x04) { // Elevator at floor 1 
+// 	// } else if (msgData == EC_ID && msgData == EC_POS_1 && RxMsg.LEN != 0x04) { // Elevator at floor 1
 // 	// 	printf("%s Floor 1", ecBaseStr);
 
 // 	// } else if (msgData == EC_ID && msgData == EC_POS_2 && RxMsg.LEN != 0x04) { // Elevator at floor 2
@@ -757,15 +804,15 @@ if (newCommand == 1) {
 // 	// } else if (msgData == FC1_ID && msgData == FC_FLOOR_REQ && RxMsg.LEN != 0x04) {
 // 	// 	printf("%s Floor 1 Requests Car\n", fcBaseStr);
 // 	// 	pcanTx(SC_ID, SC_FLOOR_REQ_1);
-			
+
 // 	// } else if (msgData == FC2_ID && msgData == FC_FLOOR_REQ && RxMsg.LEN != 0x04) {
 // 	// 	printf("%s Floor 2 Requests Car\n", fcBaseStr);
 // 	// 	pcanTx(SC_ID, SC_FLOOR_REQ_2);
-			
+
 // 	// } else if (msgData == FC3_ID && msgData == FC_FLOOR_REQ && RxMsg.LEN != 0x04) {
 // 	// 	printf("%s Floor 3 Requests Car\n", fcBaseStr);
 // 	// 	pcanTx(SC_ID, SC_FLOOR_REQ_3);
-			
+
 // 	// }
 // }
 
